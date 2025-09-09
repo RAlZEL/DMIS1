@@ -1,0 +1,17 @@
+{
+    "name": "DMIS",
+    "short_name": "DMIS",
+    "start_url": "/index.php",
+    "background_color": "#6777ef",
+    "description": "Install DMIS PENRO Occidental Mindoro",
+    "display": "fullscreen",
+    "theme_color": "#6777ef",
+    "icons": [
+        {
+            "src": "images/logo.png",
+            "sizes": "48x48",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}
