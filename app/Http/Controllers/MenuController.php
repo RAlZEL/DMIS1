@@ -2,15 +2,25 @@
 
 namespace App\Http\Controllers;
 
+// Core imports
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+// Domain: Financial
+use App\Models\Announcement;
+use App\Models\DocumentTracking\Document;
+use App\Models\FinancialManagement\account\accountname;
+use App\Models\FinancialManagement\voucher;
+use App\Models\Task\Task;
+use App\Models\User;
+
+// Domain: Inventory
 use App\Models\DTR;
 use App\Models\Event;
-use Illuminate\Http\Request;
 use App\Models\Admin\EMS\Employee;
-use App\Models\Announcement;
-use Illuminate\Support\Facades\Auth;
-use App\Models\DocumentTracking\Document;
-use App\Models\Task\Task;
+use App\Models\InventoryManagement\article\articlename;
+use App\Models\InventoryManagement\property;
 
 class MenuController extends Controller
 {
@@ -20,7 +30,7 @@ class MenuController extends Controller
             $Employee = Employee::where('email', auth('web')->user()->email)->get()->first();
             $myTaskCount = Task::where('employee_id', $Employee->id)->where('is_assigned', true)->count();
               $myTaskCountProcessing = Task::where('employee_id', $Employee->id)->where('is_accepted', true)->count();
-         $DateNow = carbon::now();
+         $DateNow = Carbon::now();
          $Announcements = Announcement::where('end_date' , '>=', Carbon::now())->where('start_date', '<=', Carbon::now())->orderby('created_at', 'desc')->get();
     
             return view('back.pages.user.home', compact('myTaskCount','Announcements','Employee','myTaskCountProcessing','DateNow'));
@@ -32,7 +42,7 @@ class MenuController extends Controller
     }
 
     public function adminindex (Request $request){
-        $this->authorize('viewany', App\Models\User::class);
+    $this->authorize('viewany', User::class);
         return view('back.pages.admin.home');
     }
 
@@ -47,21 +57,21 @@ class MenuController extends Controller
     }
 
     public function adminEMS() {
-        $this->authorize('viewany', App\Models\User::class);
+    $this->authorize('viewany', User::class);
 
         return view('back.pages.admin.EMS.index');
 
     }
 
     public function userEMS() {
-        $this->authorize('viewany', App\Models\Admin\EMS\Employee::class);
+    $this->authorize('viewany', Employee::class);
 
         return view('back.pages.user.EMS.index');
 
     }
 
     public function adminUMS() {
-        $this->authorize('viewany', App\Models\User::class);
+    $this->authorize('viewany', User::class);
 
         return view('back.pages.admin.UMS.index');
 
@@ -69,48 +79,48 @@ class MenuController extends Controller
 
 
     public function adminUserRole() {
-        $this->authorize('viewany', App\Models\User::class);
+    $this->authorize('viewany', User::class);
 
         return view('back.pages.admin.UMS.roles.index');
     }
 
 
     public function userMail() {
-        // $this->authorize('viewany', App\Models\User::class);
+    // $this->authorize('viewany', User::class);
 
         return view('back.pages.user.mail.index');
 
     }
 
     public function userFMMail() {
-        $this->authorize('viewMail', App\Models\FinancialManagement\voucher::class);
+    $this->authorize('viewMail', voucher::class);
 
         return view('back.pages.user.mail.financial-management.index');
 
     }
 
     public function adminDocumentTracking() {
-        $this->authorize('adminView', App\Models\DocumentTracking\Document::class);
+    $this->authorize('adminView', Document::class);
         return view('back.pages.admin.document-tracking.index');
     }
 
     public function userFM() {
-        $this->authorize('viewany', App\Models\FinancialManagement\voucher::class);
+    $this->authorize('viewany', voucher::class);
         return view('back.pages.user.financial-management.index');
     }
 
     public function userIM() {
-        $this->authorize('viewany', App\Models\InventoryManagement\property::class);
+    $this->authorize('viewany', property::class);
         return view('back.pages.user.inventory-management.index');
     }
 
     public function InventoryManagementCreateProperty() {
-        $this->authorize('create', App\Models\InventoryManagement\property::class);
+    $this->authorize('create', property::class);
         return view('back.pages.user.inventory-management.property.create');
     }
 
     public function InventoryManagementArticle() {
-        $this->authorize('viewAny', App\Models\InventoryManagement\article\articlename::class);
+    $this->authorize('viewAny', articlename::class);
         return view('back.pages.user.inventory-management.article.index');
     }
 
@@ -121,28 +131,28 @@ class MenuController extends Controller
 
     
     public function userAllocationPAP() {
-        $this->authorize('createAllocation', App\Models\FinancialManagement\voucher::class);
+    $this->authorize('createAllocation', voucher::class);
         return view('back.pages.user.financial-management.gaa.pap.index');
     }
 
     public function userAllocationActivity() {
-        $this->authorize('createAllocation', App\Models\FinancialManagement\voucher::class);
+    $this->authorize('createAllocation', voucher::class);
         return view('back.pages.user.financial-management.gaa.activity.index');
     }
 
     public function userAllocationUACS() {
-        $this->authorize('createAllocation', App\Models\FinancialManagement\voucher::class);
+    $this->authorize('createAllocation', voucher::class);
         return view('back.pages.user.financial-management.gaa.uacs.index');
     }
 
 
     public function userRealignmentUACS() {
-        $this->authorize('createAllocation', App\Models\FinancialManagement\voucher::class);
+    $this->authorize('createAllocation', voucher::class);
         return view('back.pages.user.financial-management.gaa.realignment.index');
     }
     
     public function FinancialManagementAccount() {
-        $this->authorize('viewAny', App\Models\FinancialManagement\account\accountname::class);
+    $this->authorize('viewAny', accountname::class);
         return view('back.pages.user.financial-management.account.index');
     }
     
@@ -157,7 +167,7 @@ class MenuController extends Controller
 
 
     public function FinancialManagementCreateVoucher() {
-        $this->authorize('create', App\Models\FinancialManagement\voucher::class);
+    $this->authorize('create', voucher::class);
         return view('back.pages.user.financial-management.voucher.create');
     }
 
@@ -168,67 +178,72 @@ class MenuController extends Controller
 
 
     public function SAAAllocation() {
-        $this->authorize('createAllocation', App\Models\FinancialManagement\voucher::class);
+    $this->authorize('createAllocation', voucher::class);
         return view('back.pages.user.financial-management.saa.index');
     }
 
     public function AccountingTitle() {
-        $this->authorize('addAccountingTitle',App\Models\FinancialManagement\voucher::class);
+    $this->authorize('addAccountingTitle',voucher::class);
         return view('back.pages.user.financial-management.fm-accounting.accountingentry');
     }
 
     public function AccountingUACS() {
-        $this->authorize('addAccountingTitle',App\Models\FinancialManagement\voucher::class);
+    $this->authorize('addAccountingTitle',voucher::class);
         return view('back.pages.user.financial-management.fm-accounting.uacs');
     }
 
     public function FinancialPerActivityReport() {
-        $this->authorize('viewFinancialReport',App\Models\FinancialManagement\voucher::class);
+    $this->authorize('viewFinancialReport',voucher::class);
         return view('back.pages.user.financial-management.report.peractivity');
     }
 
     public function FinancialPerPAPReport() {
-        $this->authorize('viewFinancialReport',App\Models\FinancialManagement\voucher::class);
+    $this->authorize('viewFinancialReport',voucher::class);
         return view('back.pages.user.financial-management.report.perpap');
     }
 
     public function FinancialPerUACSReport() {
-        $this->authorize('viewFinancialReport',App\Models\FinancialManagement\voucher::class);
+    $this->authorize('viewFinancialReport',voucher::class);
         return view('back.pages.user.financial-management.report.peruacs');
     }
     
     public function FinancialPerRealignmentReport() {
-        $this->authorize('viewFinancialReport',App\Models\FinancialManagement\voucher::class);
+    $this->authorize('viewFinancialReport',voucher::class);
         return view('back.pages.user.financial-management.report.perrealignment');
     }
 
+        public function userInventoryReportOfficeArticle()
+        {
+            return view('back.pages.user.inventory-management.report.office-article');
+        }
+
     public function UserEvent() {
-        $this->authorize('viewAny',App\Models\Event::class);
+    $this->authorize('viewAny',Event::class);
         return view('back.pages.user.event.index');
     }
 
     public function UserAnnouncement() {
-        $this->authorize('viewAny',App\Models\Announcement::class);
+    $this->authorize('viewAny',Announcement::class);
         return view('back.pages.user.announcement.index');
     }
 
     public function MemoCreator() {
-        // $this->authorize('viewAny',App\Models\Announcement::class);
+    // $this->authorize('viewAny',Announcement::class);
         return view('back.pages.user.memo-creator.index');
     }
         
     public function UserTask() {
-        $this->authorize('viewAny',App\Models\Task\Task::class);
+    $this->authorize('viewAny',Task::class);
         return view('back.pages.user.task.index');
     }
 
     public function UserDailyTimeRecord() {
-        $this->authorize('create',App\Models\DTR::class);
+    $this->authorize('create',DTR::class);
         return view('back.pages.user.dtr.index');
     }
 
     public function UserMyDailyTimeRecord() {
-        $this->authorize('viewMyDTR',App\Models\DTR::class);
+    $this->authorize('viewMyDTR',DTR::class);
         return view('back.pages.user.dtr.mydtr.index');
     }
     
@@ -236,27 +251,27 @@ class MenuController extends Controller
 
 
     public function UserDTRAdd() {
-        $this->authorize('create',App\Models\DTR::class);
+    $this->authorize('create',DTR::class);
         return view('back.pages.user.dtr.create.index');
     }
 
     public function UserDTRPrint() {
-        $this->authorize('print',App\Models\DTR::class);
+    $this->authorize('print',DTR::class);
         return view('back.pages.user.dtr.print.print');
     }
 
     public function financialDVPrint($id) {
-        // $this->authorize('print',App\Models\DTR::class);
+    // $this->authorize('print',DTR::class);
         return view('back.pages.user.financial-management.printdv');
     }
 
     public function UserDTRUpload() {
-        $this->authorize('upload',App\Models\DTR::class);
+    $this->authorize('upload',DTR::class);
         return view('back.pages.user.dtr.upload.index');
     }
 
     public function UserBio() {
-        $this->authorize('Biometric',App\Models\DTR::class);
+    $this->authorize('Biometric',DTR::class);
         return view('back.pages.user.dtr.bio.index');
     }
 
@@ -265,7 +280,7 @@ class MenuController extends Controller
 
     public function UserFinalPrint($id) {
   
-        $this->authorize('print',App\Models\DTR::class);
+    $this->authorize('print',DTR::class);
 
         $DTR = explode(',',str_replace(['"','[',']'], '', $id));
 
