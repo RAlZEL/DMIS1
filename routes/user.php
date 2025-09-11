@@ -17,6 +17,9 @@ Route::prefix('user')->name('user.')->group(function(){
         
     Route::middleware(['auth:web'],['revalidate'])->group(function() {
         Route::get('/',[MenuController::class,'userindex']);
+        Route::get('/inventory-management-system/report/office-article',
+            \App\Http\Livewire\User\InventoryManagement\Report\OfficeArticle\Index::class
+        )->name('user.inventory.report.office-article');
         Route::get('/home',[MenuController::class,'userindex'])->name('home');
         Route::post('/logout',[MenuController::class,'userlogout'])->name('logout');
         Route::view('/profile','back.pages.user.profile')->name('profile');
