@@ -5,8 +5,8 @@
             <label for="office" class="form-label">Office</label>
             <select wire:model="selectedOfficeId" id="office" class="form-select">
                 <option value="">All Offices</option>
-                @foreach($officeOptions as $office)
-                    <option value="{{ $office['id'] }}">{{ $office['office'] }}</option>
+                @foreach(($officeOptions ?? []) as $id => $name)
+                    <option value="{{ $id }}">{{ $name }}</option>
                 @endforeach
             </select>
             @error('selectedOfficeId')
@@ -17,8 +17,8 @@
             <label for="article" class="form-label">Article</label>
             <select wire:model="selectedArticleId" id="article" class="form-select">
                 <option value="">All Articles</option>
-                @foreach($articleOptions as $article)
-                    <option value="{{ $article['id'] }}">{{ $article['article_name'] }}</option>
+                @foreach(($articleOptions ?? []) as $id => $name)
+                    <option value="{{ $id }}">{{ $name }}</option>
                 @endforeach
             </select>
             @error('selectedArticleId')

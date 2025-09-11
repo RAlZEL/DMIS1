@@ -39,43 +39,4 @@ class Index extends Component
             'rows' => $rows,
         ]);
     }
-
-    public function exportCsv()
-    {
-        $query = Property::query()
-            ->when($this->selectedOfficeId, fn($q) => $q->where('officeid', $this->selectedOfficeId))
-            ->when($this->selectedArticleId, fn($q) => $q->where('article_id', $this->selectedArticleId))
-            ->when($this->startdate, fn($q) => $q->whereDate('date_acquired', '>=', $this->startdate))
-            ->when($this->enddate, fn($q) => $q->whereDate('date_acquired', '<=', $this->enddate))
-            ->with(['Office', 'ArticleName', 'ArticleDescription']);
-
-        $rows = $query->get();
-
-        $headers = [
-            'ID', 'Office', 'Article', 'Property No.', 'Date Acquired', 'Unit Value', 'Remarks', 'Accountable Officer'
-        ];
-
-        $callback = function() use ($rows, $headers) {
-            $file = fopen('php://output', 'w');
-            fputcsv($file, $headers);
-            foreach ($rows as $row) {
-                fputcsv($file, [
-                    $row->id,
-                    optional($row->Office)->office,
-                    optional($row->ArticleName)->article_name,
-                    $row->property_no,
-                    $row->date_acquired,
-                    $row->unit_value,
-                    $row->remarks,
-                    $row->accountable_officer,
-                ]);
-            }
-            fclose($file);
-        };
-
-        return Response::stream($callback, 200, [
-            "Content-Type" => "text/csv",
-            "Content-Disposition" => "attachment; filename=inventory_report.csv",
-        ]);
-    }
 }

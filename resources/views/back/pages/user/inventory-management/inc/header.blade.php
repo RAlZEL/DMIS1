@@ -1,4 +1,9 @@
 <div class="navbar-expand-md">
+   {{-- DEBUG (remove after verification):
+     ID: {{ auth('web')->id() ?? 'null' }}
+     Username: {{ optional(auth('web')->user())->username ?? 'null' }}
+     Email: {{ optional(auth('web')->user())->email ?? 'null' }}
+   --}}
     <div class="collapse navbar-collapse" id="navbar-menu">
       <div class="navbar navbar-light">
         <div class="container-xl">
@@ -43,10 +48,8 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="{{ route('user.user.inventory.report.office-article') }}">
-                <span class="nav-link-title">
-                  Office Article Report
-                </span>
+              <a class="nav-link" href="{{ route('user.inventory.report.office-article') }}">
+                <span class="nav-link-title">Office Article Report</span>
               </a>
             </li>
 

@@ -1,3 +1,4 @@
+@section('pageTitle', 'Inventory Management System')
 <div>
     <div class="row row-cards"> 
         <div class="col-12">

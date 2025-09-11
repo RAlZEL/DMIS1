@@ -1,6 +1,6 @@
 @extends('back.layouts.pages-layout')
 
-@section ('pageTitle',isset($pageTitle) ? $pageTitle : 'Inventory Management System')
+@section('pageTitle', 'Inventory Management System')
 
 
 @section ('pageSubTitle')
