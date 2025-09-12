@@ -212,10 +212,11 @@ class MenuController extends Controller
         return view('back.pages.user.financial-management.report.perrealignment');
     }
 
-        public function userInventoryReportOfficeArticle()
-        {
-            return view('back.pages.user.inventory-management.report.office-article');
-        }
+    public function InventoryReportOfficeArticle()
+    {
+        // no heavy logic yet; just return a view
+        return view('back.pages.user.inventory-management.report.office-article');
+    }
 
     public function UserEvent() {
     $this->authorize('viewAny',Event::class);

@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
-use App\Http\Livewire\User\InventoryManagement\Report\OfficeArticle\Index as OfficeArticleReport;
 
 
 Route::prefix('user')->name('user.')->group(function(){
@@ -18,8 +17,7 @@ Route::prefix('user')->name('user.')->group(function(){
         
     Route::middleware(['auth:web'],['revalidate'])->group(function() {
         Route::get('/',[MenuController::class,'userindex']);
-        Route::get('/inventory-management-system/report/office-article', OfficeArticleReport::class)
-            ->name('inventory.report.office-article');
+        Route::get('/inventory-management-system/report/office-article', [MenuController::class, 'InventoryReportOfficeArticle'])->name('user.IMReportOfficeArticle');
         Route::get('/home',[MenuController::class,'userindex'])->name('home');
         Route::post('/logout',[MenuController::class,'userlogout'])->name('logout');
         Route::view('/profile','back.pages.user.profile')->name('profile');
