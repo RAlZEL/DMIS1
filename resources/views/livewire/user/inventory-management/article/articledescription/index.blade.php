@@ -3,11 +3,12 @@
       <div class="col-12">
           <div class="card">
 
-          @can('create', App\Models\InventoryManagement\article\articledescription::class)
-              <div class="card-header">
-                  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_article_description">
-                  Add New Article Description
-                  </button>
+            @can('create', App\Models\InventoryManagement\article\articledescription::class)
+              <div class="card-header d-flex justify-content-end">
+                <button class="btn btn-primary btn-icon" data-bs-toggle="modal" data-bs-target="#add_article_description" title="Add Article Description" aria-label="Add Article Description">
+                <i class="fa-solid fa-circle-plus fa-lg" aria-hidden="true"></i>
+                <span class="visually-hidden">Add Article Description</span>
+                </button>
               </div>
               @endcan
               <div class="card-body border-bottom py-3">
@@ -55,7 +56,7 @@
                           <td class="text-center">
                               <div class="btn-group">
                                   @can('update', $ArticleDescription)
-                                  <a href="" class="btn btn-sm btn-primary" wire:click.prevent="editArticle({{$ArticleDescription->id}})">Edit</a> &nbsp;
+                                  <a href="" class="btn btn-sm btn-primary" wire:click.prevent="editArticle({{$ArticleDescription->id}})"><i class="fa-solid fa-pen-to-square me-1" aria-hidden="true"></i> Edit</a> &nbsp;
                                  {{--<a href="" class="btn btn-sm btn-danger" wire:click.prevent="deleteArticle({{$ArticleDescription->id}})">Delete</a>--}} 
                                   @endcan
                               </div>

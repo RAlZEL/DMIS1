@@ -3,9 +3,10 @@
         <div class="col-12">
             <div class="card">
               @can('create', App\Models\InventoryManagement\article\articlename::class)
-                 <div class="card-header">
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_article">
-                    Add New Article
+                 <div class="card-header d-flex justify-content-end">
+                    <button class="btn btn-primary btn-icon" data-bs-toggle="modal" data-bs-target="#add_article" title="Add Article" aria-label="Add Article">
+                      <i class="fa-solid fa-circle-plus fa-lg" aria-hidden="true"></i>
+                      <span class="visually-hidden">Add Article</span>
                     </button>
                 </div> 
               @endcan              
@@ -53,7 +54,7 @@
                             <td class="text-center">
                                 <div class="btn-group">
                                     @can('update', $Articlename)
-                                    <a href="" class="btn btn-sm btn-primary" wire:click.prevent="editArticle({{$Articlename->id}})">Edit</a> &nbsp;
+                                    <a href="" class="btn btn-sm btn-primary" wire:click.prevent="editArticle({{$Articlename->id}})"><i class="fa-solid fa-pen-to-square me-1" aria-hidden="true"></i> Edit</a> &nbsp;
                                     {{-- <a href="" class="btn btn-sm btn-danger" wire:click.prevent="deletePAP({{$PAP->id}})">Delete</a> --}}
                                     @endcan
                                 </div>

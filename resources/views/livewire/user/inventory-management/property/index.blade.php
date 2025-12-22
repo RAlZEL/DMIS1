@@ -1,9 +1,9 @@
 <div>
-    <form action="" method="POST" wire:submit.prevent='createProperty()'>
+    <form action="" method="POST" wire:submit.prevent='{{ $isEditing ? "updateProperty" : "createProperty" }}()'>
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h3 class="card-title">Property Information</h3>
+                    <h3 class="card-title">{{ $isEditing ? 'Edit' : 'Create' }} Property Information</h3>
                                       
                     <div class="row">
                         <div class="col-lg-4">
@@ -255,7 +255,7 @@
 
                                    
 
-                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="submit" class="btn btn-primary">{{ $isEditing ? 'Update' : 'Create' }}</button>
                 </div>
             </div>
         </div>
@@ -296,6 +296,24 @@
             </div>
         </form>
     </div>
+</div>
+
+<!-- Edit Property Modal -->
+<div wire:ignore.self class="modal modal-blur fade" id="edit_property" tabindex="-1" role="dialog" aria-hidden="true"
+data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <form class="modal-content" method="POST" wire:submit.prevent='updateProperty'>
+        <div class="modal-header">
+            <h5 class="modal-title">Edit Property</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <!-- <div class="modal-footer">
+            <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </div> -->
+    </form>
+</div>
 </div>
 
    

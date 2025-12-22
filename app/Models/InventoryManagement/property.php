@@ -29,7 +29,7 @@ class property extends Model
 
     public function Office() {
     
-        return $this->belongsTo(OfficeCategory::class, 'officeid', 'id');
+        return $this->belongsTo(OfficeCategory::class, 'office', 'id');
 
     }
     public function Division() {

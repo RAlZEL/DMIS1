@@ -42,6 +42,17 @@
 
 <script>
 
+  window.addEventListener('show-edit-property-modal', function(e) {
+    $('#edit_property').modal('show');
+  });
+
+  window.addEventListener('hide-edit-property-modal', function(e) {
+    $('#edit_property').modal('hide');
+  });
+
+  $('#edit_property').on('hidden.bs.modal', function(e) {  
+    Livewire.emit('resetModalForm');
+  }); 
     
 //   window.addEventListener('hideEmployeeModal', function(e) {
 //     $('#add_employee').modal('hide');
