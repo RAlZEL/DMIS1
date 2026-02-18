@@ -55,7 +55,7 @@
      
             </div>
             <div class="page-body">
-                <div class="container-xl">
+              <div class="container-xl">
 
                 @yield('content')
 

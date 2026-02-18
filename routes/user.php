@@ -20,11 +20,6 @@ Route::prefix('user')->name('user.')->group(function(){
         Route::get('/home',[MenuController::class,'userindex'])->name('home');
         Route::post('/logout',[MenuController::class,'userlogout'])->name('logout');
         Route::view('/profile','back.pages.user.profile')->name('profile');
-        Route::get('/inventory-management-system',[App\Http\Controllers\MenuController::class, 'userIM'])->name('IM');
-        Route::get('/inventory-management-system/new-property',[App\Http\Controllers\MenuController::class, 'InventoryManagementCreateProperty'])->name('IMCreateProperty');        
-        Route::get('/inventory-management-system/article/articlename',[App\Http\Controllers\MenuController::class, 'InventoryManagementArticle'])->name('InventoryManagementArticle');
-        Route::get('/inventory-management-system/search-print/',[App\Http\Controllers\MenuController::class, 'UserInventoryPrint'])->name('inventoryPrint');
-
         Route::get('/financial-management-system',[App\Http\Controllers\MenuController::class, 'userFM'])->name('FM');
         Route::get('/financial-management-system/Allocation/gaa/pap',[App\Http\Controllers\MenuController::class, 'userAllocationPAP'])->name('allocationPAP');
         Route::get('/financial-management-system/Allocation/gaa/activity',[App\Http\Controllers\MenuController::class, 'userAllocationActivity'])->name('allocationActivity');

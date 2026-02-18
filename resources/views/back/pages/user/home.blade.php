@@ -447,7 +447,7 @@
                     <span class="avatar me-3 rounded" style="background-image: url(./images/inventory_request.png)"></span>
                     <div>
                         <div>
-                            <h4> <a href="{{ route('user.IM') }}" class="text-muted">
+                            <h4> <a href="{{ route('admin-panel.IM') }}" class="text-muted">
                                     Inventory Management System
                                     <span class="badge bg-danger mx-1 text-xs">Offline</span></a></h4>
                         </div>

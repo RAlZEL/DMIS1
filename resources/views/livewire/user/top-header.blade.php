@@ -14,13 +14,17 @@
                 <!-- Download SVG icon from http://tabler-icons.io/i/bell -->
                     <i class="fas fa-home"></i>     
             </a>
+            {{-- Show mail icon everywhere except on Admin Inventory pages --}}
+            @if(! request()->routeIs('admin-panel.IM')
+                && ! request()->routeIs('admin-panel.IMCreateProperty')
+                && ! request()->routeIs('admin-panel.InventoryManagementArticle')
+                && ! request()->routeIs('admin-panel.inventoryPrint')
+                && ! request()->routeIs('admin-panel.inventoryPrintPage'))
             <div class="nav-item dropdown ">
-                
               <a href="#" class="nav-link px-0" data-bs-toggle="dropdown" tabindex="-1" aria-label="Show notifications">
-                <!-- Download SVG icon from http://tabler-icons.io/i/bell -->
-                    <i class="fas fa-envelope"></i>
+                <i class="fas fa-envelope"></i>
                 @if ($incomingCount != 0 || $incomingCountFM !=0)
-                <span class="badge bg-red"></span>
+                  <span class="badge bg-red"></span>
                 @endif
               </a>
               <div class="dropdown-menu dropdown-menu-end dropdown-menu-card" wire:ignore>
@@ -35,8 +39,7 @@
                           @endif
                         </h6>
                       </a>
-               
-                    </div> 
+                    </div>
                     <div class="dropdown-divider"></div>
                     @endcan
                     <div class="header">
@@ -46,12 +49,13 @@
                           <span class="badge bg-red mx-2" wire:poll.visible>  {{ $incomingCount }} </span>
                           @endif
                         </h6>
-                    </a>
+                      </a>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+            @endif
             <div class="nav-item dropdown">
               <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
                 <span class="avatar avatar-sm" style="background-image: url({{ asset('/images/user.png')}})"></span>

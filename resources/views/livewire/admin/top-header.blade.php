@@ -1,15 +1,14 @@
 <div>
     <header class="navbar navbar-expand-md navbar-light d-print-none">
-        <div class="container-xl">
+        <div class="container-xl" style="display: flex; align-items: center;">
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-right: auto;">
+            <img src="{{ asset('images/logo.png') }}" width="32" height="32" alt="Logo">
+            <!-- <span style="font-size: 1rem; font-weight: 600; color: #2c3e50;">Inventory Management System</span> -->
+          </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
-            <a href="{{ route('admin.home')}}">
-              <img src="{{ asset('images/logo.png') }}" width="110" height="32" alt="Tabler" class="navbar-brand-image">
-            </a>
-          </h1>
-          <div class="navbar-nav flex-row order-md-last">
+          <div class="navbar-nav flex-row" style="margin-left: auto;">
             <a href="{{ route('admin.home') }}" class="nav-link px-0" tabindex="-1">
                 <!-- Download SVG icon from http://tabler-icons.io/i/bell -->
                     <i class="fas fa-home"></i>     

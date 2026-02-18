@@ -5,7 +5,7 @@ namespace App\Models\InventoryManagement\article;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class articlename extends Model
+class ArticleName extends Model
 {
     protected $table = "im_article_name";    
     

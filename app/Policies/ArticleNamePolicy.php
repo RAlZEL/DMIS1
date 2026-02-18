@@ -5,7 +5,7 @@ namespace App\Policies;
 use App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use App\Models\InventoryManagement\article\articlename;
+use App\Models\InventoryManagement\article\ArticleName;
 
 class ArticleNamePolicy
 {

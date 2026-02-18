@@ -5,7 +5,7 @@ namespace App\Models\InventoryManagement\article;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class articledescription extends Model
+class ArticleDescription extends Model
 {
     protected $table = "im_article_description";    
     
@@ -14,7 +14,7 @@ class articledescription extends Model
     protected $guarded = [];
 
     public function ArticleName() {
-        return $this->belongsTo(articlename::class, 'article_id', 'id');
+        return $this->belongsTo(ArticleName::class, 'article_id', 'id');
     }
 
     static public function get_single($id)

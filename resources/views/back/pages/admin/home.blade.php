@@ -220,7 +220,7 @@
                     <span class="avatar me-3 rounded" style="background-image: url(./images/inventory.png)"></span>
                     <div>
                         <div>
-                            <h4> <a href="#" class="text-muted">
+                            <h4> <a href="{{ route('admin-panel.IM') }}" class="text-muted">
                                     Inventory Management </a></h4>
                         </div>
                         <div class="text-muted"><i>

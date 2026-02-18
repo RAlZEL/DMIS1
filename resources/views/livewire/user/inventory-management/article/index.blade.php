@@ -1,33 +1,23 @@
 <div>
-    <div class="row">
-        <div class="card">
-            <ul class="nav nav-tabs mt-2" data-bs-toggle="tabs">
-            <li class="nav-item">
-                <a href="#tabs-articlename" class="nav-link active" data-bs-toggle="tab">Article Name</a>
-            </li>
-            <li class="nav-item">
-                <a href="#tabs-articledescription" class="nav-link" data-bs-toggle="tab">Article Description</a>
-            </li>
-            </ul>
-            <div class="card-body">
-            <div class="tab-content">
-                
-                <div class="tab-pane active show" id="tabs-articlename">
-                    <div>
-                        
+    <div class="row g-0">
+        <div class="col-12">
+            <div class="card border-0 shadow-none">
+                <ul class="nav nav-tabs border-bottom" role="tablist" data-bs-toggle="tabs">
+                    <li class="nav-item" role="presentation">
+                        <a href="#tabs-articlename" class="nav-link active" data-bs-toggle="tab" role="tab" aria-selected="true">Article Name</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a href="#tabs-articledescription" class="nav-link" data-bs-toggle="tab" role="tab" aria-selected="false">Article Description</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active show" id="tabs-articlename" role="tabpanel">
                         @livewire('user.inventory-management.article.articlename.index')
-
                     </div>
-                </div>
-
-                <div class="tab-pane" id="tabs-articledescription">
-                    <div>
+                    <div class="tab-pane" id="tabs-articledescription" role="tabpanel">
                         @livewire('user.inventory-management.article.articledescription.index')
                     </div>
                 </div>
-                
-                </div>
-            </div>
             </div>
         </div>
     </div>

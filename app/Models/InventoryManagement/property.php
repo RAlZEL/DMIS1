@@ -10,10 +10,10 @@ use App\Models\Admin\EMS\Employee;
 use App\Models\Admin\AdminPanel\Category\Unit;
 use App\Models\Admin\AdminPanel\Category\Division;
 use App\Models\Admin\AdminPanel\Category\Office as OfficeCategory;
-use App\Models\InventoryManagement\article\articlename;
-use App\Models\InventoryManagement\article\articledescription;
+use App\Models\InventoryManagement\article\ArticleName;
+use App\Models\InventoryManagement\article\ArticleDescription;
 
-class property extends Model
+class Property extends Model
 {
     protected $table = "im_property"; 
 
@@ -44,11 +44,11 @@ class property extends Model
     }
 
     public function ArticleDescription() {
-        return $this->belongsTo(articledescription::class, 'article_description', 'id');
+        return $this->belongsTo(ArticleDescription::class, 'article_description', 'id');
     }
 
     public function ArticleName() {
-        return $this->belongsTo(articlename::class, 'article_id', 'id');
+        return $this->belongsTo(ArticleName::class, 'article_id', 'id');
     }
 
     public function scopeSearch($query, $term) {

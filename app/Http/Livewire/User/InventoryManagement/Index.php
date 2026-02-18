@@ -4,9 +4,10 @@ namespace App\Http\Livewire\User\InventoryManagement;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\InventoryManagement\property;
-use App\Models\InventoryManagement\article\articlename;
-use App\Models\InventoryManagement\article\articledescription;
+use App\Models\InventoryManagement\Property;
+use App\Models\InventoryManagement\article\ArticleName;
+use App\Models\InventoryManagement\article\ArticleDescription;
+use App\Models\InventoryManagement\article\Remark;
 use App\Models\Admin\AdminPanel\Category\Office;
 use App\Models\Admin\EMS\Employee;
 
@@ -29,8 +30,8 @@ class Index extends Component
     public $modalOffice = '';
 
     // Sorting
-    public $sortField = 'id';
-    public $sortDirection = 'asc';
+    public $sortField = 'created_at';
+    public $sortDirection = 'desc';
 
     // Filters
     public $dateFrom = null;
@@ -58,11 +59,21 @@ class Index extends Component
     public $edit_office = '';
     public $edit_accountable_officer = '';
 
+    // Article management modal properties
+    public $new_article_name = '';
+    public $new_article_id = '';
+    public $new_article_description = '';
+    public $articles = [];
+
     // Lists for dropdowns
     public $OfficeLists = [];
     public $EmployeeLists = [];
     public $ArticleNameLists = [];
     public $ArticleDescriptionLists = [];
+    public $RemarksList = [];
+
+    // Allowed pagination sizes to prevent malformed values
+    protected $allowedPerPage = [10, 25, 50, 100];
 
     protected $rules = [
         'edit_date_acquired'        => 'nullable|date',
@@ -83,16 +94,23 @@ class Index extends Component
 
     public function mount()
     {
+        $this->normalizePerPage();
         $this->OfficeLists = Office::orderby('office','asc')->get();
         $this->EmployeeLists = Employee::where('empstatus', '=', 'PERMANENT')->where('is_retired',false)->orderby('firstname','asc')->get();
-        $this->ArticleNameLists = articlename::orderby('article_name','asc')->get();
+        $this->ArticleNameLists = ArticleName::orderby('article_name','asc')->get();
+        $this->articles = ArticleName::orderby('article_name','asc')->get();
+        $this->RemarksList = Remark::orderby('remark_name','asc')->get();
 
         // Initialize modal fields to current filters
         $this->syncFilterModal();
     }
 
     public function updatingSearch() { $this->gotoPage(1, $this->pageName); }
-    public function updatedPerPage() { $this->gotoPage(1, $this->pageName); }
+    public function updatedPerPage()
+    {
+        $this->normalizePerPage();
+        $this->gotoPage(1, $this->pageName);
+    }
     public function updatingDateFrom() { $this->gotoPage(1, $this->pageName); }
     public function updatingDateTo() { $this->gotoPage(1, $this->pageName); }
     public function updatingValueMin() { $this->gotoPage(1, $this->pageName); }
@@ -100,7 +118,7 @@ class Index extends Component
 
     public function editProperty($id)
     {
-        $p = property::findOrFail($id);
+        $p = Property::findOrFail($id);
 
         $this->editId                      = $p->id;
         $this->edit_date_acquired          = $p->date_acquired;
@@ -117,11 +135,11 @@ class Index extends Component
         $this->edit_accountable_officer    = $p->accountable_officer;
 
         // load descriptions list for selected article
-        $this->ArticleDescriptionLists = articledescription::where('article_id', $this->edit_article_id)->orderBy('article_description','asc')->get();
+        $this->ArticleDescriptionLists = ArticleDescription::where('article_id', $this->edit_article_id)->orderBy('article_description','asc')->get();
 
         // set current description id/text if exists
         $this->edit_article_desc_id = $p->article_description;
-        $currentDesc = articledescription::find($this->edit_article_desc_id);
+        $currentDesc = ArticleDescription::find($this->edit_article_desc_id);
         $this->edit_article_desc_text = $currentDesc ? $currentDesc->article_description : '';
 
         $this->dispatchBrowserEvent('show-edit-property-modal');
@@ -130,7 +148,7 @@ class Index extends Component
     // When article changes in modal, refresh description list
     public function updatedEditArticleId($articleId)
     {
-        $this->ArticleDescriptionLists = articledescription::where('article_id', $articleId)->orderBy('article_description','asc')->get();
+        $this->ArticleDescriptionLists = ArticleDescription::where('article_id', $articleId)->orderBy('article_description','asc')->get();
         // reset selected description
         $this->edit_article_desc_id = '';
         $this->edit_article_desc_text = '';
@@ -140,7 +158,7 @@ class Index extends Component
     {
         $this->validate();
 
-        $p = property::findOrFail($this->editId);
+        $p = Property::findOrFail($this->editId);
         $p->date_acquired           = $this->edit_date_acquired;
         $p->article_id              = $this->edit_article_id;
         // If a description id is chosen, persist that and optionally update its text
@@ -257,7 +275,7 @@ class Index extends Component
     public function deleteProperty()
     {
         if ($this->deleteId) {
-            $property = property::find($this->deleteId);
+            $property = Property::find($this->deleteId);
             if ($property) {
                 $property->delete();
                 session()->flash('message', 'Property deleted successfully.');
@@ -268,7 +286,7 @@ class Index extends Component
 
     public function render()
     {
-        $query = property::with(['ArticleName','ArticleDescription','Employee','Office'])
+        $query = Property::with(['ArticleName','ArticleDescription','Employee','Office'])
             ->when($this->Search, function ($q) {
                 $s = '%'.$this->Search.'%';
                 $q->where(function($qq) use ($s) {
@@ -304,12 +322,71 @@ class Index extends Component
 
         $filteredCount = (clone $query)->count();
         $totalUnitValue = (clone $query)->sum('unit_value');
-        $totalCountAll = property::count();
+        $totalCountAll = Property::count();
 
         $properties = $query
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate($this->perPage, ['*'], $this->pageName);
 
         return view('livewire.user.inventory-management.index', compact('properties', 'filteredCount', 'totalUnitValue', 'totalCountAll'));
+    }
+
+    private function normalizePerPage()
+    {
+        $this->perPage = (int) $this->perPage;
+        if (! in_array($this->perPage, $this->allowedPerPage, true)) {
+            $this->perPage = 10;
+        }
+    }
+
+    // Article management methods
+    public function addNewArticle()
+    {
+        $this->validate([
+            'new_article_name' => 'required|max:50|unique:im_article_name,article_name',
+        ], [
+            'new_article_name.required' => 'Article Name is required',
+            'new_article_name.unique' => 'Article Name already exists',
+        ]);
+
+        $article = new articlename();
+        $article->article_name = $this->new_article_name;
+        
+        if ($article->save()) {
+            $this->articles = ArticleName::orderby('article_name','asc')->get();
+            $this->ArticleNameLists = ArticleName::orderby('article_name','asc')->get();
+            $this->new_article_name = '';
+            $this->resetErrorBag();
+            $this->dispatchBrowserEvent('showToastr', [
+                'type' => 'success',
+                'message' => 'Article added successfully!'
+            ]);
+        }
+    }
+
+    public function addNewArticleDescription()
+    {
+        $this->validate([
+            'new_article_id' => 'required',
+            'new_article_description' => 'required|unique:im_article_description,article_description',
+        ], [
+            'new_article_id.required' => 'Article Name is required',
+            'new_article_description.required' => 'Article Description is required',
+            'new_article_description.unique' => 'Article Description already exists',
+        ]);
+
+        $description = new articledescription();
+        $description->article_id = $this->new_article_id;
+        $description->article_description = $this->new_article_description;
+        
+        if ($description->save()) {
+            $this->new_article_id = '';
+            $this->new_article_description = '';
+            $this->resetErrorBag();
+            $this->dispatchBrowserEvent('showToastr', [
+                'type' => 'success',
+                'message' => 'Article Description added successfully!'
+            ]);
+        }
     }
 }

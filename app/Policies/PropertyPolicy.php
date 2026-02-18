@@ -5,7 +5,7 @@ namespace App\Policies;
 use App\Models\User;
 use App\Models\UserRole;
 use App\Models\Admin\EMS\Employee;
-use App\Models\InventoryManagement\property;
+use App\Models\InventoryManagement\Property;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PropertyPolicy

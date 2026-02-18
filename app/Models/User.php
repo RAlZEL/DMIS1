@@ -75,6 +75,49 @@ class User extends Authenticatable
 
    }
 
+    /**
+     * Check if user has a specific role
+     */
+    public function hasRole($roleName)
+    {
+        return $this->Role()->where('rolename', $roleName)->exists();
+    }
+
+    /**
+     * Check if user has any of the given roles
+     */
+    public function hasAnyRole($roles)
+    {
+        if (is_array($roles)) {
+            return $this->Role()->whereIn('rolename', $roles)->exists();
+        }
+        return $this->hasRole($roles);
+    }
+
+    /**
+     * Get all role names for this user
+     */
+    public function getRoleNames()
+    {
+        return $this->Role()->pluck('rolename')->toArray();
+    }
+
+    /**
+     * Check if user is admin
+     */
+    public function isAdmin()
+    {
+        return $this->hasRole('Admin') || $this->hasRole('admin');
+    }
+
+    /**
+     * Check if user is regular user
+     */
+    public function isUser()
+    {
+        return $this->hasRole('User') || $this->hasRole('user');
+    }
+
     public function scopeSearch($query, $term) {
 
         $term = "%$term%";

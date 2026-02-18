@@ -47,11 +47,11 @@
                         <label class="form-label">Remarks</label>
                         <select class="form-select" wire:model.defer="modalRemarks">
                             <option value="">All Remarks</option>
-                            <option value="IN GOOD CONDITION">IN GOOD CONDITION</option>
-                            <option value="FOR SURRENDER">FOR SURRENDER</option>
-                            <option value="FOR DISPOSAL">FOR DISPOSAL</option>
-                            <option value="DISPOSED">DISPOSED</option>
-                            <option value="UNSERVICEABLE">UNSERVICEABLE</option>
+                            @forelse ($RemarksList as $Remark)
+                                <option value="{{ $Remark->remark_name }}">{{ $Remark->remark_name }}</option>
+                            @empty
+                                <option value="" disabled>No remarks available</option>
+                            @endforelse
                         </select>
                     </div>
                     <div class="col-md-6">

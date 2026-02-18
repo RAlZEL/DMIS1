@@ -11,12 +11,19 @@ use App\Models\Announcement;
 use Illuminate\Support\Facades\Auth;
 use App\Models\DocumentTracking\Document;
 use App\Models\Task\Task;
+use App\Models\InventoryManagement\Property;
 
 class MenuController extends Controller
 {
     public function userindex (Request $request){
 
         if (auth('web')->check()) {
+            // Check if user is admin and redirect to admin panel
+            $user = auth('web')->user();
+            if ($user->hasRole('admin')) {
+                return redirect()->route('admin-panel.home');
+            }
+            
             $Employee = Employee::where('email', auth('web')->user()->email)->get()->first();
             $myTaskCount = Task::where('employee_id', $Employee->id)->where('is_assigned', true)->count();
               $myTaskCountProcessing = Task::where('employee_id', $Employee->id)->where('is_accepted', true)->count();
@@ -100,23 +107,69 @@ class MenuController extends Controller
     }
 
     public function userIM() {
-        $this->authorize('viewany', App\Models\InventoryManagement\property::class);
-        return view('back.pages.user.inventory-management.index');
+        $this->authorize('viewany', App\Models\InventoryManagement\Property::class);
+        $isAdmin = request()->routeIs('admin-panel.*');
+        $viewPath = $isAdmin ? 'back.pages.admin.inventory-management.index' : 'back.pages.user.inventory-management.index';
+        return view($viewPath);
     }
 
     public function InventoryManagementCreateProperty() {
-        $this->authorize('create', App\Models\InventoryManagement\property::class);
-        return view('back.pages.user.inventory-management.property.create');
+        $this->authorize('create', App\Models\InventoryManagement\Property::class);
+        $isAdmin = request()->routeIs('admin-panel.*');
+        $viewPath = $isAdmin ? 'back.pages.admin.inventory-management.property.create' : 'back.pages.user.inventory-management.property.create';
+        return view($viewPath);
     }
 
     public function InventoryManagementArticle() {
-        $this->authorize('viewAny', App\Models\InventoryManagement\article\articlename::class);
-        return view('back.pages.user.inventory-management.article.index');
+        $this->authorize('viewAny', App\Models\InventoryManagement\article\ArticleName::class);
+        $isAdmin = request()->routeIs('admin-panel.*');
+        $viewPath = $isAdmin ? 'back.pages.admin.inventory-management.article.index' : 'back.pages.user.inventory-management.article.index';
+        return view($viewPath);
     }
 
     public function UserInventoryPrint() {
+        $isAdmin = request()->routeIs('admin-panel.*');
+        $viewPath = $isAdmin ? 'back.pages.admin.inventory-management.print.print' : 'back.pages.user.inventory-management.print.print';
+        return view($viewPath);
+    }
+
+    public function inventoryPrintPage() {
+        $startdate = request('startdate');
+        $enddate = request('enddate');
+        $office_id = request('office');
+        $article_id = request('article');
+
+        // Get inventory data based on filters
+        $query = Property::query();
+
+        if ($article_id) {
+            $query->where('article_id', $article_id);
+        }
+
+        if ($office_id) {
+            $query->where('office_id', $office_id);
+        }
+
+        if ($startdate && $enddate) {
+            $query->whereBetween('date_acquired', [$startdate, $enddate]);
+        }
+
+        $properties = $query->with(['article', 'office', 'employee'])->get();
+
+        $officeInfo = null;
+        if ($office_id) {
+            $officeInfo = \App\Models\Admin\AdminPanel\Category\Office::find($office_id);
+        }
+
+        $isAdmin = request()->routeIs('admin-panel.*');
+        $viewPath = $isAdmin ? 'back.pages.admin.inventory-management.print-output' : 'back.pages.user.inventory-management.print-output';
         
-        return view('back.pages.user.inventory-management.print.print');
+        return view($viewPath, [
+            'properties' => $properties,
+            'startdate' => $startdate,
+            'enddate' => $enddate,
+            'officeInfo' => $officeInfo,
+        ]);
     }
 
     
