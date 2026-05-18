@@ -28,6 +28,7 @@
     <link rel="stylesheet" href=" {{ asset('dist/css/tabler-vendors.min.css') }}">
     <link rel="stylesheet" href=" {{ asset('dist/libs/ijabo/ijabo.min.css') }}">
     @stack('stylesheets')
+    @stack('styles')
     @livewireStyles
 
   </head>

@@ -1,15 +1,15 @@
-<div style="margin: 0; padding: 0; overflow: hidden; width: 100%;">
-    <div class="row" style="margin: 0; width: 100%;">
-        <div class="col-12" style="padding: 0;">
-            <div class="card" style="margin: 0; border-radius: 0; overflow: hidden;">
+<div class="ims-page" id="imsInventoryPageRoot">
+    <div class="row ims-page-row">
+        <div class="col-12 ims-page-col">
+            <div class="card ims-main-card">
                 <!-- Header Section -->
-                <div class="card-body border-bottom" style="padding: 0.6rem 0.75rem !important;">
+                <div class="card-body border-bottom ims-toolbar">
                     <div class="d-flex flex-wrap gap-3 align-items-center">
                         <!-- Left: Entries Per Page -->
-                        <div class="text-muted d-flex align-items-center">
+                        <div class="text-muted d-flex align-items-center ims-toolbar-meta">
                             <span class="me-2 fw-500"><i class="fa-solid fa-list me-1"></i>Show</span>
                             <div class="mx-2 d-inline-block">
-                                <select class="form-select form-select-sm" wire:model="perPage" style="min-width: 80px;">
+                                <select class="form-select form-select-sm ims-per-page-select" wire:model="perPage">
                                     <option value="10">10</option>
                                     <option value="25">25</option>
                                     <option value="50">50</option>
@@ -20,20 +20,24 @@
                         </div>
 
                         <!-- Right: Action Buttons -->
-                        <div class="ms-auto d-flex gap-2 flex-wrap">
-                            <button type="button" class="btn btn-info btn-sm gap-2" data-bs-toggle="modal" data-bs-target="#article_modal" title="Manage articles">
+                        <div class="ms-auto d-flex gap-2 flex-wrap ims-toolbar-actions">
+                            <button type="button" class="btn btn-outline-info btn-sm gap-2 ims-btn-secondary" data-bs-toggle="modal" data-bs-target="#article_modal" title="Manage articles">
                                 <i class="fa-solid fa-tags"></i>
                                 <span>Add Article</span>
                             </button>
-                            <button type="button" class="btn btn-success btn-sm gap-2" data-bs-toggle="modal" data-bs-target="#create_property_modal" title="Add a new property">
+                            <button type="button" class="btn btn-success btn-sm gap-2 ims-btn-primary" data-bs-toggle="modal" data-bs-target="#create_property_modal" title="Add a new property">
                                 <i class="fa-solid fa-plus"></i>
                                 <span>Add Property</span>
                             </button>
-                            <button type="button" class="btn btn-outline-secondary btn-sm gap-2" wire:click="resetToFirstPage" title="Reset filters and pagination">
+                            <button type="button" class="btn btn-outline-secondary btn-sm gap-2 ims-btn-tertiary js-ims-print-current-page" title="Print the current table page">
+                                <i class="fa-solid fa-print"></i>
+                                <span>Print</span>
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm gap-2 ims-btn-tertiary" wire:click="resetToFirstPage" title="Reset filters and pagination">
                                 <i class="fa-solid fa-rotate-left"></i>
                                 <span>Reset</span>
                             </button>
-                            <button type="button" class="btn btn-primary btn-sm gap-2" wire:click="openFilterModal" data-bs-toggle="modal" data-bs-target="#filterModal" title="Apply filters to properties">
+                            <button type="button" class="btn btn-primary btn-sm gap-2 ims-btn-secondary" wire:click="openFilterModal" data-bs-toggle="modal" data-bs-target="#filterModal" title="Apply filters to properties">
                                 <i class="fa-solid fa-filter"></i>
                                 <span>Filters</span>
                             </button>
@@ -42,19 +46,19 @@
                 </div>
 
                 <!-- Statistics Cards -->
-                <div class="px-3 py-2 bg-light">
+                <div class="px-3 py-2 bg-light ims-stats-wrap">
                     <div class="row g-3">
                         <div class="col-sm-4 col-12">
-                            <div class="card h-100 shadow-sm border-0">
-                                <div class="card-body">
+                            <div class="card h-100 shadow-sm border-0 ims-stat-card">
+                                <div class="card-body ims-stat-card-body">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-grow-1">
-                                            <div class="text-muted text-sm mb-1">
+                                            <div class="text-muted text-sm mb-1 ims-stat-label">
                                                 <i class="fa-solid fa-box me-1 text-primary"></i>Total Items (All)
                                             </div>
-                                            <div class="h3 mb-0 fw-bold text-primary">{{ number_format($totalCountAll) }}</div>
+                                            <div class="h3 mb-0 fw-bold text-primary ims-stat-value">{{ number_format($totalCountAll) }}</div>
                                         </div>
-                                        <div class="text-primary opacity-50">
+                                        <div class="text-primary opacity-50 ims-stat-icon">
                                             <i class="fa-solid fa-inbox fa-2x"></i>
                                         </div>
                                     </div>
@@ -62,16 +66,16 @@
                             </div>
                         </div>
                         <div class="col-sm-4 col-12">
-                            <div class="card h-100 shadow-sm border-0">
-                                <div class="card-body">
+                            <div class="card h-100 shadow-sm border-0 ims-stat-card">
+                                <div class="card-body ims-stat-card-body">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-grow-1">
-                                            <div class="text-muted text-sm mb-1">
+                                            <div class="text-muted text-sm mb-1 ims-stat-label">
                                                 <i class="fa-solid fa-filter me-1 text-info"></i>Filtered Items
                                             </div>
-                                            <div class="h3 mb-0 fw-bold text-info">{{ number_format($filteredCount) }}</div>
+                                            <div class="h3 mb-0 fw-bold text-info ims-stat-value">{{ number_format($filteredCount) }}</div>
                                         </div>
-                                        <div class="text-info opacity-50">
+                                        <div class="text-info opacity-50 ims-stat-icon">
                                             <i class="fa-solid fa-list-check fa-2x"></i>
                                         </div>
                                     </div>
@@ -79,16 +83,16 @@
                             </div>
                         </div>
                         <div class="col-sm-4 col-12">
-                            <div class="card h-100 shadow-sm border-0">
-                                <div class="card-body">
+                            <div class="card h-100 shadow-sm border-0 ims-stat-card">
+                                <div class="card-body ims-stat-card-body">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-grow-1">
-                                            <div class="text-muted text-sm mb-1">
+                                            <div class="text-muted text-sm mb-1 ims-stat-label">
                                                 <i class="fa-solid fa-peso-sign me-1 text-success"></i>Total Unit Value (Filtered)
                                             </div>
-                                            <div class="h3 mb-0 fw-bold text-success"><span class="currency-inline">₱&nbsp;{{ number_format($totalUnitValue, 2) }}</span></div>
+                                            <div class="h3 mb-0 fw-bold text-success ims-stat-value"><span class="currency-inline">&#8369;&nbsp;{{ number_format($totalUnitValue, 2) }}</span></div>
                                         </div>
-                                        <div class="text-success opacity-50">
+                                        <div class="text-success opacity-50 ims-stat-icon">
                                             <i class="fa-solid fa-calculator fa-2x"></i>
                                         </div>
                                     </div>
@@ -97,78 +101,157 @@
                         </div>
                     </div>
                 </div>
+                @php
+                    $selectedOffice = $office !== '' ? $OfficeLists->firstWhere('id', (int) $office) : null;
+                    $selectedDescription = $description !== '' ? $descriptionFilterOptions->firstWhere('id', (int) $description) : null;
+                    $unitValueRangeLabels = [
+                        'below_50k' => 'SEMI-EXPENDABLE - BELOW 50K',
+                        'ppe_50k_and_above' => 'PPE (PLANTS AND EQUIPMENTS) - 50K AND ABOVE',
+                    ];
+                    $activeFilters = [];
+
+                    if ($selectedOffice) {
+                        $activeFilters[] = ['label' => 'Office', 'value' => $selectedOffice->office];
+                    }
+
+                    if ($officer !== '') {
+                        $activeFilters[] = ['label' => 'Officer', 'value' => $officer];
+                    }
+
+                    if ($selectedDescription) {
+                        $activeFilters[] = [
+                            'label' => 'Description',
+                            'value' => trim(($selectedDescription->ArticleName->article_name ?? 'N/A') . ' - ' . $selectedDescription->article_description),
+                        ];
+                    }
+
+                    if ($remarks !== '') {
+                        $activeFilters[] = ['label' => 'Remarks', 'value' => $remarks];
+                    }
+
+                    if ($dateFrom) {
+                        $activeFilters[] = ['label' => 'Date', 'value' => \Carbon\Carbon::parse($dateFrom)->format('Y-m-d')];
+                    }
+
+                    if ($unitValueRange !== '') {
+                        $activeFilters[] = ['label' => 'Unit Value', 'value' => $unitValueRangeLabels[$unitValueRange] ?? $unitValueRange];
+                    }
+                @endphp
+
+                @if (count($activeFilters))
+                    <div class="ims-filter-summary-strip">
+                        <div class="ims-filter-summary-head">
+                            <div>
+                                <div class="ims-filter-summary-title">Active Filters</div>
+                                <div class="ims-filter-summary-subtitle">
+                                    {{ count($activeFilters) . ' filter(s) applied' }}
+                                </div>
+                            </div>
+
+                            <button type="button" class="btn ims-summary-clear-btn" wire:click="resetToFirstPage">
+                                <i class="fa-solid fa-rotate-left"></i>
+                                <span>Clear all</span>
+                            </button>
+                        </div>
+
+                        <div class="ims-filter-chip-row">
+                            @foreach ($activeFilters as $filter)
+                                <span class="ims-filter-chip">
+                                    <span class="ims-filter-chip-label">{{ $filter['label'] }}</span>
+                                    <span class="ims-filter-chip-value">{{ $filter['value'] }}</span>
+                                </span>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
 
                 @include('livewire.admin.inventory-management.modals.filter-modal')
                 @include('livewire.admin.inventory-management.modals.create-property-modal')
-                
                 <!-- Table Section -->
-                <div class="table-responsive">
-                    <table class="table table-vcenter table-mobile-md card-table table-striped inventory-table mb-0">
+                <div class="ims-records-shell">
+
+                    <div class="d-none d-md-flex flex-column ims-table-panel">
+                        <div class="table-responsive ims-table-wrap">
+                    <table id="imsCurrentTable" class="table table-vcenter table-mobile-md card-table table-striped inventory-table mb-0" style="--ims-visible-rows: {{ max($properties->count(), 1) }};">
                     <thead class="bg-light">
                         <tr>
                             <th class="text-center fw-bold">
-                                <span>ARTICLE ITEM</span>
+                                <span>ARTICLE/ITEM</span>
                             </th>
                             <th class="text-center fw-bold">
                                 <span>DESCRIPTION</span>
                             </th>
                             <th class="text-center fw-bold">
+                                <span>SPECIFICATION</span>
+                            </th>
+                            <th class="text-center fw-bold">
                                 <span>PROPERTY NO.</span>
+                            </th>
+                            <th class="text-center fw-bold">
+                                <span>UNIT OF MEASUREMENT</span>
+                            </th>
+                            <th class="text-center fw-bold">
+                                <span>UNIT VALUE</span>
+                            </th>
+                            <th class="text-center fw-bold">
+                                <span>REMARKS</span>
+                            </th>
+                            <th class="text-center fw-bold">
+                                <span>ACCOUNTABLE OFFICER</span>
+                            </th>
+                            <th class="text-center fw-bold">
+                                <span>UACS</span>
+                            </th>
+                            <th class="text-center fw-bold">
+                                <span>FUND CLUSTER</span>
+                            </th>
+                            <th class="text-center fw-bold">
+                                <span>ESTIMATED USEFUL LIFE</span>
                             </th>
                             <th class="text-center fw-bold">
                                 <span>DATE ACQUIRED</span>
                             </th>
                             <th class="text-center fw-bold">
-                                <span>UNIT VALUE</span>
+                                <span>OFFICE</span>
                             </th>
-                            <th class="text-center fw-bold d-none d-lg-table-cell">
-                                <span>SPECIFICATION</span>
+                            <th class="text-center fw-bold ims-action-col">
+                                <span>ACTIONS</span>
                             </th>
-                            <th class="text-center fw-bold d-none d-lg-table-cell">
-                                <span>UNIT OF MEASUREMENT</span>
-                            </th>
-                            <th class="text-center fw-bold d-none d-lg-table-cell">
-                                <span>QTY/CARD</span>
-                            </th>
-                            <th class="text-center fw-bold d-none d-lg-table-cell">
-                                <span>QTY/COUNT</span>
-                            </th>
-                            <th class="text-center fw-bold cursor-pointer user-select-none" role="button" wire:click="sortBy('remarks')">
-                                <span>REMARKS</span>
-                                <i class="fa-solid fa-arrow-up-down fa-xs ms-1 opacity-50"></i>
-                            </th>
-                            <th class="text-center fw-bold">ACCOUNTABLE OFFICER</th>
-                            <th class="text-center fw-bold">OFFICE</th>
-                            <th class="text-center fw-bold w-1">ACTIONS</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($properties as $Index => $property)
+                        @php
+                            $specificationText = trim(str_replace(["\r", "\n"], ' ', (string) ($property->specification ?? '')));
+                            $hasLongSpecification = strlen($specificationText) > 80;
+                        @endphp
                         <tr class="table-row-hover">
                             <td class="text-center fw-500">{{ $property->ArticleName->article_name ?? 'N/A' }}</td>
-                            <td class="text-center text-muted">{{ $property->ArticleDescription->article_description }}</td>
-                            <td class="text-center fw-500">{{ $property->property_no }}</td>
-                            <td class="text-center date-cell">
-                              <span class="badge bg-light text-dark date-badge" style="font-size: 0.75rem; font-weight: 700; padding: 0.35rem 0.5rem;">{{ $property->date_acquired ? \Carbon\Carbon::parse($property->date_acquired)->format('Y-m-d') : 'N/A' }}</span>
+                            <td class="text-center text-muted">{{ $property->ArticleDescription->article_description ?? 'N/A' }}</td>
+                            <td class="text-center text-muted specification-cell">
+                                @if ($specificationText !== '')
+                                    <div class="specification-content">
+                                        <span class="specification-cell-text" title="{{ $specificationText }}">
+                                            {{ $specificationText }}
+                                        </span>
+                                        @if ($hasLongSpecification)
+                                            <button type="button" class="specification-toggle-btn" aria-expanded="false">
+                                                More
+                                            </button>
+                                        @endif
+                                    </div>
+                                @else
+                                    <span class="specification-cell-text" title="N/A">N/A</span>
+                                @endif
                             </td>
+                            <td class="text-center fw-500">{{ $property->property_no ?: 'N/A' }}</td>
+                            <td class="text-center text-muted">{{ $property->unit_of_measurement ?: 'N/A' }}</td>
                             <td class="text-center fw-600 text-success">
                                 @if($property->unit_value !== null)
-                                    <span class="currency-inline">₱&nbsp;{{ number_format($property->unit_value, 2) }}</span>
+                                    <span class="currency-inline">&#8369;&nbsp;{{ number_format($property->unit_value, 2) }}</span>
                                 @else
                                     N/A
                                 @endif
-                            </td>
-                                                        <td class="text-center text-muted d-none d-lg-table-cell specification-cell">
-                                                            {{ str_replace(["\r", "\n"], ' ', $property->specification ?? 'N/A') }}
-                                                        </td>
-                            <td class="text-center text-muted d-none d-lg-table-cell">
-                                {{ $property->unit_of_measurement ?? 'N/A' }}
-                            </td>
-                            <td class="text-center text-muted d-none d-lg-table-cell">
-                                {{ $property->quantity_per_card ?? 'N/A' }}
-                            </td>
-                            <td class="text-center text-muted d-none d-lg-table-cell">
-                                {{ $property->quantity_per_count ?? 'N/A' }}
                             </td>
                             <td class="text-center">
                                 @php
@@ -187,15 +270,21 @@
                             </td>
                             <td class="text-center text-sm">
                                 @if($property->Employee)
-                                    <span class="text-muted">{{ $property->Employee->firstname . ' ' . substr($property->Employee->middlename, 0, 1) . '. ' . $property->Employee->lastname }}</span>
+                                    <span class="text-muted" title="{{ trim($property->Employee->firstname . ' ' . ($property->Employee->middlename ? $property->Employee->middlename . ' ' : '') . $property->Employee->lastname) }}">{{ $property->Employee->firstname . ' ' . substr($property->Employee->middlename, 0, 1) . '. ' . $property->Employee->lastname }}</span>
                                 @else
-                                    <span class="text-muted">—</span>
+                                    <span class="text-muted">N/A</span>
                                 @endif
                             </td>
-                            <td class="text-center text-sm">
-                                <span class="text-muted">{{ $property->Office->office ?? '—' }}</span>
+                            <td class="text-center text-muted">{{ $this->displayPropertyUacs($property) }}</td>
+                            <td class="text-center text-muted">{{ $property->fund_cluster ?: 'N/A' }}</td>
+                            <td class="text-center text-muted">{{ $property->estimated_useful_life ?: 'N/A' }}</td>
+                            <td class="text-center date-cell">
+                              <span class="badge bg-light text-dark date-badge">{{ $property->date_acquired ? \Carbon\Carbon::parse($property->date_acquired)->format('Y-m-d') : 'N/A' }}</span>
                             </td>
-                            <td class="text-center">
+                            <td class="text-center text-sm">
+                                <span class="text-muted" title="{{ $property->Office->office ?? 'N/A' }}">{{ $property->Office->office ?? 'N/A' }}</span>
+                            </td>
+                            <td class="text-center ims-action-cell">
                                 <div class="dropdown">
                                     <button class="btn btn-sm btn-success dropdown-toggle action-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         Actions
@@ -207,15 +296,10 @@
                                                 <span>Edit</span>
                                             </a>
                                         </li>
-                                        <li>
-                                            <a class="dropdown-item text-warning" href="{{ route('admin-panel.inventoryPrint') }}" target="_blank">
-                                                <i class="fa-solid fa-print"></i>
-                                                <span>Print</span>
-                                            </a>
-                                        </li>
+
                                         <li><hr class="dropdown-divider"></li>
                                         <li>
-                                            <a class="dropdown-item text-danger" href="#" wire:click.prevent="confirmDelete({{ $property->id }})" data-bs-target="#deletePropertyModal">
+                                            <a class="dropdown-item text-danger" href="#" wire:click.prevent="confirmDelete({{ $property->id }})">
                                                 <i class="fa-regular fa-trash-can"></i>
                                                 <span>Delete</span>
                                             </a>
@@ -226,7 +310,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="13" class="text-center py-4">
+                            <td colspan="14" class="text-center py-4">
                                 <div class="text-muted">
                                     <i class="fa-solid fa-inbox fa-2x mb-2 opacity-50 d-block"></i>
                                     <span class="fw-500">No properties found</span>
@@ -236,780 +320,171 @@
                         @endforelse
                     </tbody>
                     </table>
+                        </div>
+                    </div>
+
+                    <div class="ims-mobile-list d-md-none">
+                        @forelse ($properties as $property)
+                            @php
+                                $specificationText = trim(str_replace(["\r", "\n"], ' ', (string) ($property->specification ?? '')));
+                                $remarksText = $property->remarks ?? 'N/A';
+                                $remarksUpper = strtoupper($remarksText);
+                                $badgeClass = 'bg-secondary';
+                                if ($remarksUpper === 'IN GOOD CONDITION') {
+                                    $badgeClass = 'bg-success';
+                                } elseif (str_contains($remarksUpper, 'SURRENDER')) {
+                                    $badgeClass = 'bg-warning text-dark';
+                                } elseif (str_contains($remarksUpper, 'DISPOSAL') || str_contains($remarksUpper, 'DISPOSE')) {
+                                    $badgeClass = 'bg-danger';
+                                }
+                                $employeeFullName = $property->Employee
+                                    ? trim($property->Employee->firstname . ' ' . ($property->Employee->middlename ? $property->Employee->middlename . ' ' : '') . $property->Employee->lastname)
+                                    : 'N/A';
+                            @endphp
+                            <article class="ims-mobile-card">
+                                <div class="ims-mobile-card-top">
+                                    <div class="ims-mobile-card-copy">
+                                        <span class="ims-mobile-card-kicker">ARTICLE/ITEM</span>
+                                        <h3 class="ims-mobile-card-title">{{ $property->ArticleName->article_name ?? 'N/A' }}</h3>
+                                        <p class="ims-mobile-card-subtitle">{{ $property->ArticleDescription->article_description ?? 'N/A' }}</p>
+                                    </div>
+
+                                    <div class="ims-mobile-card-value">
+                                        <span class="ims-mobile-card-kicker">UNIT VALUE</span>
+                                        <strong class="text-success">
+                                            @if($property->unit_value !== null)
+                                                <span class="currency-inline">&#8369;&nbsp;{{ number_format($property->unit_value, 2) }}</span>
+                                            @else
+                                                N/A
+                                            @endif
+                                        </strong>
+                                    </div>
+                                </div>
+
+                                <div class="ims-mobile-card-grid">
+                                    <div class="ims-mobile-meta">
+                                        <span class="ims-mobile-meta-label">Property No.</span>
+                                        <span class="ims-mobile-meta-value">{{ $property->property_no ?: 'N/A' }}</span>
+                                    </div>
+                                    <div class="ims-mobile-meta">
+                                        <span class="ims-mobile-meta-label">Officer</span>
+                                        <span class="ims-mobile-meta-value">{{ $employeeFullName }}</span>
+                                    </div>
+                                    <div class="ims-mobile-meta">
+                                        <span class="ims-mobile-meta-label">Date Acquired</span>
+                                        <span class="ims-mobile-meta-value">{{ $property->date_acquired ? \Carbon\Carbon::parse($property->date_acquired)->format('Y-m-d') : 'N/A' }}</span>
+                                    </div>
+                                    <div class="ims-mobile-meta">
+                                        <span class="ims-mobile-meta-label">Office</span>
+                                        <span class="ims-mobile-meta-value">{{ $property->Office->office ?? 'N/A' }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="ims-mobile-card-remarks">
+                                    <span class="badge {{ $badgeClass }} px-2 py-1">{{ $remarksText }}</span>
+                                </div>
+
+                                <details class="ims-mobile-card-details">
+                                    <summary>More details</summary>
+                                    <div class="ims-mobile-card-extra">
+                                        <div class="ims-mobile-meta">
+                                            <span class="ims-mobile-meta-label">Specification</span>
+                                            <span class="ims-mobile-meta-value">{{ $specificationText !== '' ? $specificationText : 'N/A' }}</span>
+                                        </div>
+                                        <div class="ims-mobile-meta">
+                                            <span class="ims-mobile-meta-label">Unit of Measurement</span>
+                                            <span class="ims-mobile-meta-value">{{ $property->unit_of_measurement ?: 'N/A' }}</span>
+                                        </div>
+                                        <div class="ims-mobile-meta">
+                                            <span class="ims-mobile-meta-label">UACS</span>
+                                            <span class="ims-mobile-meta-value">{{ $this->displayPropertyUacs($property) }}</span>
+                                        </div>
+                                        <div class="ims-mobile-meta">
+                                            <span class="ims-mobile-meta-label">Fund Cluster</span>
+                                            <span class="ims-mobile-meta-value">{{ $property->fund_cluster ?: 'N/A' }}</span>
+                                        </div>
+                                        <div class="ims-mobile-meta">
+                                            <span class="ims-mobile-meta-label">Estimated Useful Life</span>
+                                            <span class="ims-mobile-meta-value">{{ $property->estimated_useful_life ?: 'N/A' }}</span>
+                                        </div>
+                                    </div>
+                                </details>
+
+                                <div class="ims-mobile-card-actions">
+                                    <button type="button" class="btn btn-primary btn-sm" wire:click.prevent="editProperty({{ $property->id }})">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                        <span>Edit</span>
+                                    </button>
+
+                                    <button type="button" class="btn btn-outline-danger btn-sm" wire:click.prevent="confirmDelete({{ $property->id }})">
+                                        <i class="fa-regular fa-trash-can"></i>
+                                        <span>Delete</span>
+                                    </button>
+                                </div>
+                            </article>
+                        @empty
+                            <div class="ims-mobile-empty">
+                                <i class="fa-solid fa-inbox"></i>
+                                <span>No properties found.</span>
+                            </div>
+                        @endforelse
+                    </div>
                 </div>
-                
+
                 <!-- Pagination Footer -->
-                <div class="card-footer px-4 py-3 bg-light">
-                    <div class="d-flex align-items-center justify-content-end">
-                        {{ $properties->links() }}
+                <div class="card-footer px-4 py-3 bg-light ims-table-footer">
+                    <div class="d-flex align-items-center justify-content-end ims-table-footer-inner">
+                        {{ $properties->links('pagination::bootstrap-4') }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-{{-- 
-    <div wire:ignore.self class="modal modal-blur fade" id="add_office" tabindex="-1" role="dialog" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <form class="modal-content" method="POST"
-                @if($updateOffice)
-                    wire:submit.prevent='updateOffice()'
-                @else
-                    wire:submit.prevent="addOffice()"
-                @endif
-            >
-            <div class="modal-header">
-              <h5 class="modal-title"> {{ $updateOffice ? 'Update Office ' : 'Add Office'}}</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-    
-                <div class="mb-3">
-                    <label class="form-label">Office Name</label>
-                    <input type="text" class="form-control" name="office" placeholder="Enter Office Name" wire:model="office">
-                  </div>  
-                  <span class="text-danger"> @error('office')
-                    {{ $message }}
-                      
-                  @enderror</span>   
-
-                  <div class="mb-3">
-                    <label class="form-label">Address</label>
-                    <input type="text" class="form-control" name="address" placeholder="Enter Address" wire:model="address">
-                  </div>  
-                  <span class="text-danger">
-                    @error('address')
-                        {{ $message }}
-                      
-                    @enderror</span> 
-
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">{{ $updateOffice ? 'Update' : 'Save'}}</button>
-            </div>
-        </form>
-        </div>
-    </div>
-
-    <div wire:ignore.self class="modal modal-blur fade" id="delete_office" tabindex="-1" role="dialog" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-          <form class="modal-content" method="POST"     wire:submit.prevent='destroyOffice()'>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            <div class="modal-status bg-danger"></div>
-            <div class="modal-body text-center py-4">
-              <!-- Download SVG icon from http://tabler-icons.io/i/alert-triangle -->
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 9v2m0 4v.01" /><path d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75" /></svg>
-              <h3>Are you sure?</h3>
-              <div class="text-muted">Do you really want to delete this office.</div>
-            </div>
-            <div class="modal-footer">
-              <div class="w-100">
-                <div class="row">
-                  <div class="col"><a href="#" class="btn w-100" data-bs-dismiss="modal">
-                      Cancel
-                    </a></div>
-                  <div class="col"> 
-                    <button type="submit" class="btn btn-danger w-100">Delete</button>  
-                   </div>
-                </div>
-              </div>
-            </div>
-        </form>
-        </div>
-    </div> --}}
-
-    {{-- Removed create property form from homepage --}}
+    {{-- Removed legacy office modals; IMS page now uses property-focused flows only --}}
 
     @include('livewire.admin.inventory-management.property.edit')
 
     <!-- Delete Confirmation Modal -->
-    <div wire:ignore.self class="modal modal-blur fade" id="deletePropertyModal" tabindex="-1" role="dialog" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div wire:ignore.self class="modal modal-blur fade ims-modal-shell ims-confirm-modal" id="deletePropertyModal" tabindex="-1" role="dialog" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-            <form class="modal-content" method="POST" wire:submit.prevent="deleteProperty()">
+            <form class="modal-content ims-modal-content" method="POST" wire:submit.prevent="deleteProperty()">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <div class="modal-status bg-danger"></div>
                 <div class="modal-body text-center py-4">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 9v2m0 4v.01" /><path d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75" /></svg>
-                    <h3>Are you sure?</h3>
-                    <div class="text-muted">Do you really want to delete this property?</div>
+                    <h3 class="ims-confirm-title">Delete this property?</h3>
+                    <div class="text-muted ims-confirm-copy">This action removes the inventory record from IMS.</div>
                 </div>
                 <div class="modal-footer">
                     <div class="w-100">
                         <div class="row">
                             <div class="col"><a href="#" class="btn w-100" data-bs-dismiss="modal">Cancel</a></div>
-                            <div class="col"><button type="submit" class="btn btn-danger w-100" data-bs-dismiss="modal">Delete</button></div>
+                            <div class="col">
+                                <button type="submit" class="btn btn-danger w-100" wire:loading.attr="disabled" wire:target="deleteProperty">
+                                    <span wire:loading.remove wire:target="deleteProperty">Delete</span>
+                                    <span wire:loading wire:target="deleteProperty"><i class="spinner-border spinner-border-sm me-1"></i>Deleting...</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-</div>
-
-@push('styles')
-<style>
-        /* ============ INVENTORY MANAGEMENT SYSTEM - POLISHED UI ============ */
-        
-        /* LAYOUT FIXES */
-        html, body {
-                overflow-x: hidden !important;
-                max-width: 100vw !important;
-                background: #f8fafc !important;
-        }
-
-        .page-body {
-                overflow-x: hidden !important;
-                max-width: 100vw !important;
-        }
-
-        /* CUSTOM SCROLLBAR */
-        .table-responsive::-webkit-scrollbar {
-                width: 8px;
-                height: 8px;
-        }
-
-        .table-responsive::-webkit-scrollbar-track {
-                background: #f1f5f9;
-                border-radius: 10px;
-        }
-
-        .table-responsive::-webkit-scrollbar-thumb {
-                background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
-                border-radius: 10px;
-        }
-
-        .table-responsive::-webkit-scrollbar-thumb:hover {
-                background: linear-gradient(135deg, #64748b 0%, #475569 100%);
-        }
-
-        /* TOOLTIPS */
-        .tooltip {
-                font-size: 0.75rem !important;
-        }
-
-        .tooltip-inner {
-                background: #1e293b !important;
-                border-radius: 6px !important;
-                padding: 0.5rem 0.75rem !important;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
-        }
-
-        /* STATISTICS CARDS */
-        .px-3.py-2.bg-light {
-                padding: 1.25rem 1.5rem !important;
-                background: linear-gradient(135deg, #f5f7fa 0%, #f8f9fa 100%) !important;
-        }
-
-        .px-3.py-2.bg-light .card {
-                border: none !important;
-                border-radius: 12px !important;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04) !important;
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-                overflow: hidden !important;
-        }
-
-        .px-3.py-2.bg-light .card:hover {
-                box-shadow: 0 8px 16px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.06) !important;
-                transform: translateY(-4px) !important;
-        }
-
-        .px-3.py-2.bg-light .card .card-body {
-                padding: 1.25rem !important;
-        }
-
-        .px-3.py-2.bg-light .card .h3 {
-                font-size: 1.75rem !important;
-                font-weight: 700 !important;
-                letter-spacing: -0.5px !important;
-        }
-
-        .px-3.py-2.bg-light .card .text-muted {
-                font-size: 0.8rem !important;
-                font-weight: 500 !important;
-                text-transform: uppercase !important;
-                letter-spacing: 0.5px !important;
-        }
-
-        /* MAIN TABLE CARD */
-        .row-cards > .col-12 > .card {
-                border: none !important;
-                border-radius: 12px !important;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04) !important;
-                overflow: hidden !important;
-                background: #fff !important;
-        }
-
-        /* HEADER SECTION */
-        .card-body.border-bottom {
-                padding: 1rem 1.25rem !important;
-                background: linear-gradient(180deg, #ffffff 0%, #f8fafb 100%) !important;
-                border-bottom: 1px solid #e5e7eb !important;
-        }
-
-        .card-body.border-bottom .form-select {
-                padding: 0.5rem 0.75rem !important;
-                font-size: 0.8rem !important;
-                border: 1.5px solid #d1d5db !important;
-                border-radius: 8px !important;
-                transition: all 0.2s ease !important;
-        }
-
-        .card-body.border-bottom .form-select:focus {
-                border-color: #3b82f6 !important;
-                box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
-        }
-
-        .card-body.border-bottom .btn {
-                padding: 0.5rem 1rem !important;
-                font-size: 0.8rem !important;
-                font-weight: 600 !important;
-                border-radius: 8px !important;
-                transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-                border: none !important;
-        }
-
-        .card-body.border-bottom .btn:hover {
-                transform: translateY(-2px) !important;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
-        }
-
-        .card-body.border-bottom .btn-info {
-                background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%) !important;
-        }
-
-        .card-body.border-bottom .btn-success {
-                background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-        }
-
-        .card-body.border-bottom .btn-warning {
-                background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
-        }
-
-        .card-body.border-bottom .btn-outline-secondary {
-                border: 1.5px solid #6b7280 !important;
-                color: #6b7280 !important;
-                background: white !important;
-        }
-
-        .card-body.border-bottom .btn-outline-secondary:hover {
-                background: #6b7280 !important;
-                color: white !important;
-        }
-
-        /* PAGINATION FOOTER */
-        .card-footer {
-                background: linear-gradient(180deg, #f8fafb 0%, #f1f5f9 100%) !important;
-                border-top: 1px solid #e5e7eb !important;
-                padding: 1rem 1.25rem !important;
-        }
-
-        .card-footer .pagination {
-                margin: 0 !important;
-        }
-
-        .card-footer .pagination .page-link {
-                border-radius: 6px !important;
-                margin: 0 0.15rem !important;
-                border: 1px solid #cbd5e1 !important;
-                color: #475569 !important;
-                font-weight: 500 !important;
-                transition: all 0.2s ease !important;
-        }
-
-        .card-footer .pagination .page-link:hover {
-                background: #3b82f6 !important;
-                color: white !important;
-                border-color: #3b82f6 !important;
-                transform: translateY(-1px) !important;
-        }
-
-        .card-footer .pagination .page-item.active .page-link {
-                background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
-                border-color: #3b82f6 !important;
-                box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3) !important;
-        }
-
-        /* CURRENCY INLINE */
-        .currency-inline {
-                display: inline-flex;
-                align-items: baseline;
-                white-space: nowrap;
-                font-weight: 600 !important;
-                color: #059669 !important;
-        }
-
-        /* TEXT STYLING */
-        .fw-500 {
-                font-weight: 500 !important;
-        }
-
-        .fw-600 {
-                font-weight: 600 !important;
-        }
-
-        .text-sm {
-                font-size: 0.75rem !important;
-        }
-
-        /* TABLE CONTAINER */
-        .table-responsive {
-                overflow-x: hidden !important;
-                overflow-y: auto !important;
-                max-height: calc(100vh - 320px);
-        }
-
-        /* TABLE STRUCTURE */
-        .inventory-table {
-                width: 100% !important;
-                table-layout: fixed !important;
-                border-collapse: collapse !important;
-        }
-
-        /* TABLE HEADERS */
-        .inventory-table thead th {
-                padding: 0.75rem 0.5rem !important;
-                font-size: 0.7rem !important;
-                font-weight: 700 !important;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-                background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
-                border-bottom: 2px solid #cbd5e1 !important;
-                color: #334155 !important;
-                white-space: normal !important;
-                word-wrap: break-word !important;
-                line-height: 1.3;
-                position: sticky;
-                top: 0;
-                z-index: 10;
-                vertical-align: middle !important;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.04) !important;
-        }
-
-        /* TABLE BODY CELLS */
-        .inventory-table tbody td {
-                padding: 0.75rem 0.5rem !important;
-                font-size: 0.75rem !important;
-                line-height: 1.4 !important;
-                border-bottom: 1px solid #f1f5f9 !important;
-                vertical-align: middle !important;
-                color: #1e293b !important;
-                height: 75px !important;
-                max-height: 75px !important;
-                min-height: 75px !important;
-                overflow: hidden !important;
-        }
-
-        /* TABLE ROWS - FIXED HEIGHT WITH MAXIMUM SPECIFICITY */
-        table.inventory-table tbody tr,
-        .table.inventory-table tbody tr,
-        .card-table.inventory-table tbody tr {
-                height: 75px !important;
-                max-height: 75px !important;
-                min-height: 75px !important;
-                transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* TEXT ELLIPSIS FOR LONG CONTENT */
-        .inventory-table tbody td:nth-child(1),
-        .inventory-table tbody td:nth-child(2),
-        .inventory-table tbody td:nth-child(6),
-        .inventory-table tbody td:nth-child(10) {
-                max-width: 0 !important;
-                overflow: hidden !important;
-                text-overflow: ellipsis !important;
-                white-space: nowrap !important;
-        }
-
-        .inventory-table tbody td.specification-cell {
-            white-space: nowrap !important;
-            overflow: hidden !important;
-            text-overflow: ellipsis !important;
-        }
-
-        /* Keep other columns wrapping */
-        .inventory-table tbody td:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(6)):not(:nth-child(10)) {
-                white-space: normal !important;
-                word-wrap: break-word !important;
-        }
-
-        /* TABLE ROW STYLING */
-        .inventory-table tbody tr:nth-child(even) {
-                background: #f8fafc;
-        }
-
-        .inventory-table tbody tr:hover {
-                background: linear-gradient(90deg, #eff6ff 0%, #dbeafe 100%) !important;
-                box-shadow: inset 0 0 0 1px #93c5fd, 0 2px 4px rgba(59, 130, 246, 0.08);
-                transform: scale(1.001);
-        }
-
-        /* DATE BADGE STYLING */
-        .date-badge {
-                display: inline-block;
-                padding: 0.4rem 0.75rem !important;
-                font-size: 0.7rem !important;
-                font-weight: 600 !important;
-                border-radius: 8px !important;
-                background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
-                color: white !important;
-                box-shadow: 0 2px 4px rgba(14, 165, 233, 0.2) !important;
-                letter-spacing: 0.3px !important;
-        }
-
-        /* CONDITION BADGES */
-        .badge.bg-light {
-                background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%) !important;
-                color: #334155 !important;
-                padding: 0.4rem 0.75rem !important;
-                font-weight: 600 !important;
-                border-radius: 8px !important;
-                font-size: 0.7rem !important;
-                border: 1px solid #cbd5e1 !important;
-        }
-
-        .badge[style*="background: green"],
-        .badge[class*="IN GOOD CONDITION"] {
-                background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-                color: white !important;
-                padding: 0.4rem 0.75rem !important;
-                font-weight: 600 !important;
-                border-radius: 8px !important;
-                font-size: 0.7rem !important;
-                box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2) !important;
-                border: none !important;
-        }
-
-        /* REMARKS/STATUS BADGES */
-        .badge.bg-success {
-                background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-                color: white !important;
-                padding: 0.45rem 0.85rem !important;
-                font-weight: 600 !important;
-                border-radius: 8px !important;
-                font-size: 0.7rem !important;
-                box-shadow: 0 2px 4px rgba(16, 185, 129, 0.25) !important;
-                border: none !important;
-                letter-spacing: 0.3px !important;
-        }
-
-        .badge.bg-warning {
-                background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
-                color: white !important;
-                padding: 0.45rem 0.85rem !important;
-                font-weight: 600 !important;
-                border-radius: 8px !important;
-                font-size: 0.7rem !important;
-                box-shadow: 0 2px 4px rgba(245, 158, 11, 0.25) !important;
-                border: none !important;
-                letter-spacing: 0.3px !important;
-        }
-
-        .badge.bg-danger {
-                background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
-                color: white !important;
-                padding: 0.45rem 0.85rem !important;
-                font-weight: 600 !important;
-                border-radius: 8px !important;
-                font-size: 0.7rem !important;
-                box-shadow: 0 2px 4px rgba(239, 68, 68, 0.25) !important;
-                border: none !important;
-                letter-spacing: 0.3px !important;
-        }
-
-        .badge.bg-secondary {
-                background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%) !important;
-                color: white !important;
-                padding: 0.45rem 0.85rem !important;
-                font-weight: 600 !important;
-                border-radius: 8px !important;
-                font-size: 0.7rem !important;
-                box-shadow: 0 2px 4px rgba(107, 114, 128, 0.25) !important;
-                border: none !important;
-                letter-spacing: 0.3px !important;
-        }
-
-        /* COLUMN WIDTHS - ALL 13 COLUMNS VISIBLE */
-        .inventory-table th:nth-child(1), .inventory-table td:nth-child(1) { width: 6.5% !important; }
-        .inventory-table th:nth-child(2), .inventory-table td:nth-child(2) { width: 6.5% !important; }
-        .inventory-table th:nth-child(3), .inventory-table td:nth-child(3) { width: 7.5% !important; }
-        .inventory-table th:nth-child(4), .inventory-table td:nth-child(4) { width: 6.5% !important; }
-        .inventory-table th:nth-child(5), .inventory-table td:nth-child(5) { width: 6.5% !important; }
-        .inventory-table th:nth-child(6), .inventory-table td:nth-child(6) { width: 9% !important; }
-        .inventory-table th:nth-child(7), .inventory-table td:nth-child(7) { width: 6.5% !important; }
-        .inventory-table th:nth-child(8), .inventory-table td:nth-child(8) { width: 6% !important; }
-        .inventory-table th:nth-child(9), .inventory-table td:nth-child(9) { width: 6% !important; }
-        .inventory-table th:nth-child(10), .inventory-table td:nth-child(10) { width: 10% !important; }
-        .inventory-table th:nth-child(11), .inventory-table td:nth-child(11) { width: 11% !important; }
-        .inventory-table th:nth-child(12), .inventory-table td:nth-child(12) { width: 10% !important; }
-        .inventory-table th:nth-child(13), .inventory-table td:nth-child(13) { width: 8% !important; }
-
-        /* ACTION BUTTONS IN TABLE */
-        .btn-action-edit, .btn-action-delete {
-                padding: 0.35rem 0.6rem !important;
-                font-size: 0.7rem !important;
-                border: none !important;
-                border-radius: 6px !important;
-                transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-                font-weight: 600 !important;
-                box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
-        }
-
-        .btn-action-edit {
-                background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
-                color: white !important;
-        }
-
-        .btn-action-edit:hover {
-                background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
-                transform: translateY(-2px) !important;
-                box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3) !important;
-        }
-
-        .btn-action-delete {
-                background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
-                color: white !important;
-        }
-
-        .btn-action-delete:hover {
-                background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
-                transform: translateY(-2px) !important;
-                box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3) !important;
-        }
-
-        .btn-group {
-                gap: 0.35rem;
-                display: flex;
-        }
-                color: white !important;
-                transform: translateY(-1px);
-        }
-
-        .btn-group {
-            gap: 0.25rem !important;
-            display: flex !important;
-        }
-
-        /* ACTIONS DROPDOWN */
-        .action-dropdown-btn {
-            display: inline-flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            padding: 0.35rem 0.75rem !important;
-            font-size: 0.7rem !important;
-            font-weight: 700 !important;
-            border-radius: 8px !important;
-        }
-
-        .action-dropdown-btn:hover {
-            transform: translateY(-1px) !important;
-            box-shadow: 0 6px 12px rgba(34, 197, 94, 0.3) !important;
-        }
-
-        .action-dropdown-menu {
-            min-width: 160px !important;
-            padding: 0.35rem !important;
-            border-radius: 12px !important;
-            border: 1px solid #e5e7eb !important;
-            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12) !important;
-        }
-
-        .action-dropdown-menu .dropdown-item {
-            display: flex !important;
-            align-items: center !important;
-            gap: 0.5rem !important;
-            font-size: 0.75rem !important;
-            font-weight: 600 !important;
-            border-radius: 8px !important;
-            padding: 0.45rem 0.6rem !important;
-        }
-
-        .action-dropdown-menu .dropdown-item:hover {
-            background: #f3f4f6 !important;
-        }
-
-        /* BADGES */
-        .badge {
-                padding: 0.3rem 0.5rem !important;
-                font-size: 0.65rem !important;
-                font-weight: 600 !important;
-                border-radius: 999px !important;
-        }
-
-        /* FOOTER */
-        .card-footer {
-                padding: 0.75rem 1rem !important;
-                font-size: 0.8rem !important;
-                background: #f8f9fa !important;
-                border-top: 1px solid #e9ecef !important;
-        }
-
-        /* TEXT UTILITIES */
-        .text-success { color: #10b981 !important; font-weight: 600; }
-        .fw-500 { font-weight: 500; }
-        .fw-600 { font-weight: 600; }
-</style>
-@endpush
-
-@push('scripts')
-<script>
-  window.addEventListener('show-edit-property-modal', function() {
-    const modalEl = document.getElementById('edit_property');
-    if (modalEl && typeof bootstrap !== 'undefined') {
-      const modal = new bootstrap.Modal(modalEl);
-      modal.show();
-    }
-  });
-
-  window.addEventListener('hide-edit-property-modal', function() {
-    const modalEl = document.getElementById('edit_property');
-    if (modalEl) {
-      const modal = bootstrap.Modal.getInstance(modalEl);
-      if (modal) modal.hide();
-    }
-  });
-
-  document.addEventListener('livewire:load', function() {
-    // Tooltip initialization for action buttons
-    document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function(el) {
-      if (typeof bootstrap !== 'undefined') {
-        new bootstrap.Tooltip(el, {
-          html: true,
-          delay: { show: 200, hide: 100 }
-        });
-      }
-    });
-
-    // Add loading state to action buttons
-    document.addEventListener('click', function(e) {
-      const editBtn = e.target.closest('.btn-action-edit');
-      const deleteBtn = e.target.closest('.btn-action-delete');
-      
-      if (editBtn || deleteBtn) {
-        const btn = editBtn || deleteBtn;
-        const icon = btn.querySelector('i');
-        const originalHTML = btn.innerHTML;
-        
-        // Show loading state
-        btn.disabled = true;
-        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-        
-        // Restore after Livewire processes
-        setTimeout(() => {
-          if (btn && btn.parentElement) {
-            btn.disabled = false;
-            btn.innerHTML = originalHTML;
-          }
-        }, 200);
-      }
-    });
-
-    // Add loading state to filter and sort buttons
-    const filterBtn = document.querySelector('[wire\\:click="openFilterModal"]');
-    const resetBtn = document.querySelector('[wire\\:click="resetToFirstPage"]');
-    
-    if (filterBtn) {
-      filterBtn.addEventListener('click', function() {
-        addButtonLoading(this);
-      });
-    }
-    
-    if (resetBtn) {
-      resetBtn.addEventListener('click', function() {
-        addButtonLoading(this);
-      });
-    }
-
-    // Sort button loading states
-    document.querySelectorAll('th[wire\\:click*="sortBy"]').forEach(th => {
-      th.addEventListener('click', function() {
-        const icon = this.querySelector('i');
-        if (icon) {
-          icon.classList.add('fa-spin');
-          setTimeout(() => {
-            if (icon) icon.classList.remove('fa-spin');
-          }, 300);
-        }
-      });
-    });
-  });
-
-  // Add loading indicator to button
-  function addButtonLoading(btn) {
-    const originalHTML = btn.innerHTML;
-    btn.disabled = true;
-    btn.style.opacity = '0.7';
-    
-    setTimeout(() => {
-      if (btn && btn.parentElement) {
-        btn.disabled = false;
-        btn.style.opacity = '';
-        btn.innerHTML = originalHTML;
-      }
-    }, 200);
-  }
-
-  // Currency formatting
-  document.addEventListener('DOMContentLoaded', function() {
-    const editInput = document.getElementById('editUnitValueDisplay');
-    const editHidden = document.getElementById('editUnitValueHidden');
-    const editClearBtn = editInput?.closest('.input-group')?.querySelector('.currency-clear');
-
-    if (editInput && editHidden) {
-      if (editHidden.value) {
-        const val = parseFloat(editHidden.value);
-        if (!isNaN(val)) {
-          editInput.value = val.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-        }
-      }
-
-      editInput.addEventListener('input', function(e) {
-        let value = e.target.value.replace(/,/g, '');
-        if (value === '' || value === '.') {
-          editHidden.value = '';
-          return;
-        }
-        const num = parseFloat(value);
-        if (!isNaN(num)) {
-          editHidden.value = num;
-          e.target.value = num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-        }
-      });
-
-      if (editClearBtn) {
-        editClearBtn.addEventListener('click', function() {
-          editInput.value = '';
-          editHidden.value = '';
-          editInput.focus();
-        });
-      }
-    }
-  });
-
-  // Livewire hooks for better UX
-  document.addEventListener('livewire:load', () => {
-    if (!window.Livewire?.hook) return;
-    Livewire.hook('message.processed', () => {
-      // Re-initialize tooltips after Livewire updates
-      if (typeof bootstrap !== 'undefined') {
-        document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function(el) {
-          const tooltip = bootstrap.Tooltip.getInstance(el);
-          if (!tooltip) {
-            new bootstrap.Tooltip(el);
-          }
-        });
-      }
-    });
-  });
-</script>
-@endpush
-
 <!-- ARTICLE MANAGEMENT MODAL -->
-<div wire:ignore.self class="modal modal-blur fade" id="article_modal" tabindex="-1" role="dialog" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <!-- Nav Tabs -->
-            <div class="modal-header border-bottom">
-                <ul class="nav nav-tabs w-100" role="tablist">
+<div wire:ignore.self class="modal modal-blur fade ims-modal-shell" id="article_modal" tabindex="-1" role="dialog" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content ims-modal-content ims-article-modal">
+            <div class="modal-header border-bottom ims-article-header">
+                <div class="ims-article-heading">
+                    <h5 class="ims-article-heading-title">Article Management</h5>
+                    <p class="ims-article-heading-subtitle">Create and maintain article names, descriptions, and reusable remarks.</p>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body ims-article-body">
+                <ul class="nav nav-pills ims-article-tabs" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="add_article_tab" data-bs-toggle="tab" data-bs-target="#add_article_content" type="button" role="tab" aria-controls="add_article_content" aria-selected="true">
                             <i class="fa-solid fa-plus me-2"></i>Add Article
@@ -1020,72 +495,419 @@
                             <i class="fa-solid fa-align-left me-2"></i>Add Description
                         </button>
                     </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="manage_remarks_tab" data-bs-toggle="tab" data-bs-target="#manage_remarks_content" type="button" role="tab" aria-controls="manage_remarks_content" aria-selected="false">
+                            <i class="fa-solid fa-comment-dots me-2"></i>Remarks
+                        </button>
+                    </li>
                 </ul>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
 
-            <!-- Tab Content -->
-            <div class="modal-body">
-                <div class="tab-content">
-                    <!-- Add Article Tab -->
-                    <div class="tab-pane fade show active" id="add_article_content" role="tabpanel">
-                        <form wire:submit.prevent="addNewArticle" class="mt-3">
-                            <div class="mb-3">
-                                <label class="form-label fw-600">Article Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control @error('new_article_name') is-invalid @enderror" 
-                                       placeholder="Enter article name" wire:model.defer="new_article_name" autofocus>
-                                @error('new_article_name')
-                                    <div class="invalid-feedback d-block">{{ $message }}</div>
-                                @enderror
+                <div class="tab-content ims-article-tab-content">
+                    <div class="tab-pane fade show active ims-article-tab-pane" id="add_article_content" role="tabpanel">
+                        <section class="ims-article-section-card ims-article-form-card">
+                            <div class="ims-article-section-head">
+                                <h6 class="ims-article-section-title">Create Article Name</h6>
+                                <p class="ims-article-section-subtitle">Add a unique article label used in IMS property records.</p>
                             </div>
-                            <div class="d-flex gap-2 justify-content-end">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                <button type="submit" class="btn btn-primary" wire:loading.attr="disabled">
-                                    <span wire:loading.remove>Add Article</span>
-                                    <span wire:loading><i class="spinner-border spinner-border-sm me-2"></i>Processing...</span>
-                                </button>
+
+                        <form wire:submit.prevent="addNewArticle" class="ims-article-form">
+                            <div class="row g-3">
+                                <div class="col-lg-4">
+                                    <label class="form-label fw-600">Article Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('new_article_name') is-invalid @enderror"
+                                           id="imsNewArticleName" maxlength="255" placeholder="Enter article name" wire:model.defer="new_article_name" autofocus>
+                                    @error('new_article_name')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="form-label fw-600">PPE UACS</label>
+                                    <input type="text" class="form-control @error('new_article_ppe_uacs') is-invalid @enderror" id="imsNewArticlePpeUacs" maxlength="255" placeholder="Optional PPE UACS" wire:model.defer="new_article_ppe_uacs">
+                                    @error('new_article_ppe_uacs')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="form-label fw-600">Semi-ex UACS</label>
+                                    <input type="text" class="form-control @error('new_article_semi_ex_uacs') is-invalid @enderror" id="imsNewArticleSemiExUacs" maxlength="255" placeholder="Optional Semi-ex UACS" wire:model.defer="new_article_semi_ex_uacs">
+                                    @error('new_article_semi_ex_uacs')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mt-3">
+                                <small class="text-muted">Optional fields. Leave either UACS blank if no code applies.</small>
+                                <div class="d-flex gap-2 justify-content-end ims-article-form-actions">
+                                    <button type="button" class="btn btn-outline-secondary ims-btn-tertiary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-primary ims-btn-secondary" wire:loading.attr="disabled" wire:target="addNewArticle">
+                                        <span wire:loading.remove wire:target="addNewArticle">Add Article</span>
+                                        <span wire:loading wire:target="addNewArticle"><i class="spinner-border spinner-border-sm me-2"></i>Processing...</span>
+                                    </button>
+                                </div>
                             </div>
                         </form>
+                        </section>
+
+                        <section class="ims-article-section-card ims-article-list-card">
+                        <div class="ims-article-list-toolbar">
+                            <div class="ims-article-list-title">
+                                <h6 class="mb-0 ims-article-section-title">Existing Article Names</h6>
+                                <span class="badge bg-light text-dark">{{ number_format($articleNameTotal) }}</span>
+                            </div>
+                            <div class="input-group input-group-sm ims-article-search-group">
+                                <input type="text" class="form-control ims-article-search" placeholder="Search article names..." wire:model.debounce.300ms="articleSearch">
+                                <button type="button" class="btn btn-outline-secondary" wire:click="$set('articleSearch','')" {{ $articleSearch === '' ? 'disabled' : '' }}>Clear</button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive ims-article-table-wrap">
+                            <table class="table table-sm table-striped align-middle mb-0 ims-article-table">
+                                <thead>
+                                    <tr>
+                                        <th>Article Name</th>
+                                        <th>PPE UACS</th>
+                                        <th>Semi-ex UACS</th>
+                                        <th class="text-end" style="width: 220px;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse($articleNameResults as $articleItem)
+                                        <tr wire:key="article-item-{{ $articleItem->id }}" class="{{ (int) $editingArticleId === (int) $articleItem->id ? 'ims-article-edit-row' : ((int) $confirmingArticleDeleteId === (int) $articleItem->id ? 'ims-article-delete-target-row' : ((int) $recentArticleId === (int) $articleItem->id ? 'ims-recent-row' : '')) }}">
+                                            <td>
+                                                @if((int) $editingArticleId === (int) $articleItem->id)
+                                                    <input type="text" class="form-control form-control-sm ims-article-edit-input @error('editingArticleName') is-invalid @enderror" wire:model.defer="editingArticleName">
+                                                    @error('editingArticleName')
+                                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                                    @enderror
+                                                @else
+                                                    <span class="fw-600">{{ $articleItem->article_name }}</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if((int) $editingArticleId === (int) $articleItem->id)
+                                                    <input type="text" class="form-control form-control-sm ims-article-edit-input @error('editingArticlePpeUacs') is-invalid @enderror" wire:model.defer="editingArticlePpeUacs" maxlength="255" placeholder="Optional PPE UACS">
+                                                    @error('editingArticlePpeUacs')
+                                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                                    @enderror
+                                                @else
+                                                    <span class="text-muted">{{ $articleItem->ppe_uacs ?: 'N/A' }}</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if((int) $editingArticleId === (int) $articleItem->id)
+                                                    <input type="text" class="form-control form-control-sm ims-article-edit-input @error('editingArticleSemiExUacs') is-invalid @enderror" wire:model.defer="editingArticleSemiExUacs" maxlength="255" placeholder="Optional Semi-ex UACS">
+                                                    @error('editingArticleSemiExUacs')
+                                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                                    @enderror
+                                                @else
+                                                    <span class="text-muted">{{ $articleItem->semi_ex_uacs ?: 'N/A' }}</span>
+                                                @endif
+                                            </td>
+                                            <td class="text-end ims-inline-actions">
+                                                @if((int) $editingArticleId === (int) $articleItem->id)
+                                                    <div class="ims-inline-actions-group ims-inline-actions-group-edit">
+                                                        <button type="button" class="btn btn-success btn-sm" data-ims-article-row-action="save" wire:click.prevent="saveEditArticle" wire:loading.attr="disabled" wire:target="saveEditArticle">
+                                                            Save
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-secondary btn-sm" data-ims-article-row-action="cancel-edit" wire:click.prevent="cancelEditArticle" wire:loading.attr="disabled" wire:target="cancelEditArticle">
+                                                            Cancel
+                                                        </button>
+                                                    </div>
+                                                @else
+                                                    <div class="ims-inline-actions-group">
+                                                        <button type="button" class="btn btn-primary btn-sm" data-ims-article-row-action="edit" wire:click.prevent="startEditArticle({{ $articleItem->id }})" wire:loading.attr="disabled" wire:target="startEditArticle">
+                                                            Edit
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger btn-sm" data-ims-article-row-action="delete" wire:click.prevent="promptDeleteArticle({{ $articleItem->id }})" wire:loading.attr="disabled" wire:target="promptDeleteArticle">
+                                                            Delete
+                                                        </button>
+                                                    </div>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="4" class="py-3">
+                                                <div class="ims-article-empty">
+                                                    <i class="fa-solid fa-inbox"></i>
+                                                    <span>No article names found.</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+
+                        @if($confirmingArticleDeleteId)
+                            <div class="ims-article-confirm-overlay" wire:key="article-delete-popup-{{ $confirmingArticleDeleteId }}">
+                                <div class="ims-article-confirm-card" role="alertdialog" aria-modal="true" aria-labelledby="imsArticleDeleteTitle">
+                                    <div class="ims-article-confirm-icon">
+                                        <i class="fa-solid fa-triangle-exclamation"></i>
+                                    </div>
+                                    <div class="ims-article-confirm-copy-wrap">
+                                        <h6 id="imsArticleDeleteTitle" class="ims-article-confirm-title">Delete Article Name</h6>
+                                        <p class="ims-article-confirm-text">
+                                            Delete <strong>{{ $confirmingArticleDeleteName ?: 'this article' }}</strong> from Existing Article Names?
+                                        </p>
+                                        <span class="ims-article-confirm-subtext">This action removes the article name if it is not currently in use.</span>
+                                    </div>
+                                    <div class="ims-article-confirm-actions">
+                                        <button type="button" class="btn btn-outline-secondary" data-ims-article-row-action="cancel-delete" wire:click.prevent="cancelDeleteArticle" wire:loading.attr="disabled" wire:target="cancelDeleteArticle,deleteArticle">
+                                            Cancel
+                                        </button>
+                                        <button type="button" class="btn btn-danger" data-ims-article-row-action="confirm-delete" wire:click.prevent="deleteArticle({{ $confirmingArticleDeleteId }})" wire:loading.attr="disabled" wire:target="deleteArticle">
+                                            Confirm Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                        </section>
                     </div>
 
                     <!-- Add Description Tab -->
-                    <div class="tab-pane fade" id="add_description_content" role="tabpanel">
-                        <form wire:submit.prevent="addNewArticleDescription" class="mt-3">
-                            <div class="mb-3">
-                                <label class="form-label fw-600">Article Name <span class="text-danger">*</span></label>
-                                <select class="form-select @error('new_article_id') is-invalid @enderror" wire:model.defer="new_article_id">
-                                    <option value="">--- Choose Article Name ---</option>
-                                    @forelse ($articles as $article)
-                                        <option value="{{ $article->id }}">{{ $article->article_name }}</option>
-                                    @empty
-                                        <option disabled>No articles available</option>
-                                    @endforelse
-                                </select>
-                                @error('new_article_id')
-                                    <div class="invalid-feedback d-block">{{ $message }}</div>
-                                @enderror
+                    <div class="tab-pane fade ims-article-tab-pane" id="add_description_content" role="tabpanel">
+                        @php
+                            $hasArticleOptions = collect($articles)->isNotEmpty();
+                        @endphp
+                        <section class="ims-article-section-card ims-article-form-card">
+                            <div class="ims-article-section-head">
+                                <h6 class="ims-article-section-title">Create Article Description</h6>
+                                <p class="ims-article-section-subtitle">Attach descriptions to an existing article for better inventory detail.</p>
                             </div>
 
-                            <div class="mb-3">
-                                <label class="form-label fw-600">Article Description <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control @error('new_article_description') is-invalid @enderror" 
-                                       placeholder="Enter article description" wire:model.defer="new_article_description">
-                                @error('new_article_description')
-                                    <div class="invalid-feedback d-block">{{ $message }}</div>
-                                @enderror
+                            @if(! $hasArticleOptions)
+                                <div class="ims-article-guard">
+                                    <i class="fa-solid fa-circle-info"></i>
+                                    <span>Add an article name first.</span>
+                                </div>
+                            @endif
+
+                            <form wire:submit.prevent="addNewArticleDescription" class="ims-article-form">
+                                <div class="mb-3">
+                                    <label class="form-label fw-600">Article Name <span class="text-danger">*</span></label>
+                                    <select class="form-select @error('new_article_id') is-invalid @enderror" wire:model.defer="new_article_id" {{ $hasArticleOptions ? '' : 'disabled' }}>
+                                        <option value="">--- Choose Article Name ---</option>
+                                        @forelse ($articles as $articleOption)
+                                            <option value="{{ $articleOption->id }}">{{ $articleOption->article_name }}</option>
+                                        @empty
+                                            <option disabled>No articles available</option>
+                                        @endforelse
+                                    </select>
+                                    @error('new_article_id')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-600">Article Description <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('new_article_description') is-invalid @enderror"
+                                           id="newArticleDescriptionInput" maxlength="255" placeholder="Enter article description" wire:model.defer="new_article_description" {{ $hasArticleOptions ? '' : 'disabled' }}>
+                                    @error('new_article_description')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="d-flex gap-2 justify-content-end ims-article-form-actions">
+                                    <button type="button" class="btn btn-outline-secondary ims-btn-tertiary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-primary ims-btn-secondary" wire:loading.attr="disabled" wire:target="addNewArticleDescription" {{ $hasArticleOptions ? '' : 'disabled' }}>
+                                        <span wire:loading.remove wire:target="addNewArticleDescription">Add Description</span>
+                                        <span wire:loading wire:target="addNewArticleDescription"><i class="spinner-border spinner-border-sm me-2"></i>Processing...</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </section>
+
+                        <section class="ims-article-section-card ims-article-list-card">
+                            <div class="ims-article-list-toolbar">
+                                <div class="ims-article-list-title">
+                                    <h6 class="mb-0 ims-article-section-title">Existing Descriptions</h6>
+                                    <span class="badge bg-light text-dark">{{ number_format($articleDescriptionTotal) }}</span>
+                                </div>
+                                <div class="input-group input-group-sm ims-article-search-group">
+                                    <input type="text" class="form-control ims-article-search" placeholder="Search descriptions..." wire:model.debounce.300ms="articleDescriptionSearch">
+                                    <button type="button" class="btn btn-outline-secondary" wire:click="$set('articleDescriptionSearch','')" {{ $articleDescriptionSearch === '' ? 'disabled' : '' }}>Clear</button>
+                                </div>
                             </div>
 
-                            <div class="d-flex gap-2 justify-content-end">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                <button type="submit" class="btn btn-primary" wire:loading.attr="disabled">
-                                    <span wire:loading.remove>Add Description</span>
-                                    <span wire:loading><i class="spinner-border spinner-border-sm me-2"></i>Processing...</span>
-                                </button>
+                            <div class="table-responsive ims-article-table-wrap">
+                                <table class="table table-sm table-striped align-middle mb-0 ims-article-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Article Name</th>
+                                            <th>Description</th>
+                                            <th class="text-end" style="width: 220px;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse($articleDescriptionResults as $descItem)
+                                            <tr wire:key="description-item-{{ $descItem->id }}" class="{{ (int) $editingDescriptionId === (int) $descItem->id ? 'ims-article-edit-row' : ((int) $recentDescriptionId === (int) $descItem->id ? 'ims-recent-row' : '') }}">
+                                                <td>{{ $descItem->ArticleName->article_name ?? 'N/A' }}</td>
+                                                <td>
+                                                    @if((int) $editingDescriptionId === (int) $descItem->id)
+                                                        <input type="text" class="form-control form-control-sm @error('editingDescriptionText') is-invalid @enderror" wire:model.defer="editingDescriptionText">
+                                                        @error('editingDescriptionText')
+                                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                                        @enderror
+                                                    @else
+                                                        {{ $descItem->article_description }}
+                                                    @endif
+                                                </td>
+                                                <td class="text-end ims-inline-actions">
+                                                    @if((int) $editingDescriptionId === (int) $descItem->id)
+                                                        <button type="button" class="btn btn-success btn-sm" wire:click="saveEditArticleDescription" wire:loading.attr="disabled" wire:target="saveEditArticleDescription">
+                                                            Save
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-secondary btn-sm" wire:click="cancelEditArticleDescription" wire:loading.attr="disabled" wire:target="cancelEditArticleDescription">
+                                                            Cancel
+                                                        </button>
+                                                    @elseif((int) $confirmingDescriptionDeleteId === (int) $descItem->id)
+                                                        <span class="ims-inline-confirm-copy">Delete this description?</span>
+                                                        <button type="button" class="btn btn-danger btn-sm" wire:click.prevent="deleteArticleDescription({{ $descItem->id }})" wire:loading.attr="disabled" wire:target="deleteArticleDescription">
+                                                            Confirm
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-secondary btn-sm" wire:click.prevent="cancelDeleteArticleDescription" wire:loading.attr="disabled" wire:target="cancelDeleteArticleDescription">
+                                                            Cancel
+                                                        </button>
+                                                    @else
+                                                        <button type="button" class="btn btn-primary btn-sm" wire:click.prevent="startEditArticleDescription({{ $descItem->id }})" wire:loading.attr="disabled" wire:target="startEditArticleDescription">
+                                                            Edit
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger btn-sm" wire:click.prevent="promptDeleteArticleDescription({{ $descItem->id }})" wire:loading.attr="disabled" wire:target="promptDeleteArticleDescription">
+                                                            Delete
+                                                        </button>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="3" class="py-3">
+                                                    <div class="ims-article-empty">
+                                                        <i class="fa-solid fa-inbox"></i>
+                                                        <span>No article descriptions found.</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
                             </div>
-                        </form>
+                        </section>
+                    </div>
+
+                    <!-- Remarks Tab -->
+                    <div class="tab-pane fade ims-article-tab-pane" id="manage_remarks_content" role="tabpanel">
+                        <section class="ims-article-section-card ims-article-form-card">
+                            <div class="ims-article-section-head">
+                                <h6 class="ims-article-section-title">Create Remark</h6>
+                                <p class="ims-article-section-subtitle">Manage reusable remarks used in inventory records.</p>
+                            </div>
+
+                            <form wire:submit.prevent="addNewRemark" class="ims-article-form">
+                                <div class="mb-3">
+                                    <label class="form-label fw-600">Remark Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('new_remark_name') is-invalid @enderror"
+                                           maxlength="100" placeholder="Enter remark name" wire:model.defer="new_remark_name">
+                                    @error('new_remark_name')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="d-flex gap-2 justify-content-end ims-article-form-actions">
+                                    <button type="button" class="btn btn-outline-secondary ims-btn-tertiary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-primary ims-btn-secondary" wire:loading.attr="disabled" wire:target="addNewRemark">
+                                        <span wire:loading.remove wire:target="addNewRemark">Add Remark</span>
+                                        <span wire:loading wire:target="addNewRemark"><i class="spinner-border spinner-border-sm me-2"></i>Processing...</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </section>
+
+                        <section class="ims-article-section-card ims-article-list-card">
+                            <div class="ims-article-list-toolbar">
+                                <div class="ims-article-list-title">
+                                    <h6 class="mb-0 ims-article-section-title">Existing Remarks</h6>
+                                    <span class="badge bg-light text-dark">{{ number_format($remarkTotal) }}</span>
+                                </div>
+                                <div class="input-group input-group-sm ims-article-search-group">
+                                    <input type="text" class="form-control ims-article-search" placeholder="Search remarks..." wire:model.debounce.300ms="remarkSearch">
+                                    <button type="button" class="btn btn-outline-secondary" wire:click="$set('remarkSearch','')" {{ $remarkSearch === '' ? 'disabled' : '' }}>Clear</button>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive ims-article-table-wrap">
+                                <table class="table table-sm table-striped align-middle mb-0 ims-article-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Remark</th>
+                                            <th class="text-end" style="width: 220px;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse($remarkResults as $remarkItem)
+                                            <tr wire:key="remark-item-{{ $remarkItem->id }}" class="{{ (int) $editingRemarkId === (int) $remarkItem->id ? 'ims-article-edit-row' : ((int) $recentRemarkId === (int) $remarkItem->id ? 'ims-recent-row' : '') }}">
+                                                <td>
+                                                    @if((int) $editingRemarkId === (int) $remarkItem->id)
+                                                        <input type="text" class="form-control form-control-sm @error('editingRemarkName') is-invalid @enderror" wire:model.defer="editingRemarkName">
+                                                        @error('editingRemarkName')
+                                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                                        @enderror
+                                                    @else
+                                                        <span class="fw-600">{{ $remarkItem->remark_name }}</span>
+                                                    @endif
+                                                </td>
+                                                <td class="text-end ims-inline-actions">
+                                                    @if((int) $editingRemarkId === (int) $remarkItem->id)
+                                                        <button type="button" class="btn btn-success btn-sm" wire:click="saveEditRemark" wire:loading.attr="disabled" wire:target="saveEditRemark">
+                                                            Save
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-secondary btn-sm" wire:click="cancelEditRemark" wire:loading.attr="disabled" wire:target="cancelEditRemark">
+                                                            Cancel
+                                                        </button>
+                                                    @elseif((int) $confirmingRemarkDeleteId === (int) $remarkItem->id)
+                                                        <span class="ims-inline-confirm-copy">Delete this remark?</span>
+                                                        <button type="button" class="btn btn-danger btn-sm" wire:click.prevent="deleteRemark({{ $remarkItem->id }})" wire:loading.attr="disabled" wire:target="deleteRemark">
+                                                            Confirm
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-secondary btn-sm" wire:click.prevent="cancelDeleteRemark" wire:loading.attr="disabled" wire:target="cancelDeleteRemark">
+                                                            Cancel
+                                                        </button>
+                                                    @else
+                                                        <button type="button" class="btn btn-primary btn-sm" wire:click.prevent="startEditRemark({{ $remarkItem->id }})" wire:loading.attr="disabled" wire:target="startEditRemark">
+                                                            Edit
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger btn-sm" wire:click.prevent="promptDeleteRemark({{ $remarkItem->id }})" wire:loading.attr="disabled" wire:target="promptDeleteRemark">
+                                                            Delete
+                                                        </button>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="4" class="py-3">
+                                                    <div class="ims-article-empty">
+                                                        <i class="fa-solid fa-inbox"></i>
+                                                        <span>No remarks found.</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@push('styles')
+@include('livewire.admin.inventory-management.page-styles')
+@endpush
+
+@push('scripts')
+@include('livewire.admin.inventory-management.page-scripts')
+@endpush

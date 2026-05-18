@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\Models\UserRole;
-use App\Models\Admin\EMS\Employee;
 use App\Models\InventoryManagement\Property;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -20,20 +19,12 @@ class PropertyPolicy
      */
     public function viewAny(User $user)
     {
-            if(auth('web')->check())
-       {
-        return ($user); 
-       }
+        return $this->isImAdmin($user) || $this->hasImPermission($user, 'can_view');
     }
 
     public function viewMail(User $user)
     {
-        $Role = UserRole::where('userid','=',auth('web')->user()->id)->where('roleid',42)->where('can_route', true)->get()->first();
-        if(!empty($Role))
-        {
-            return ($user); 
-
-        }  
+        return $this->isImAdmin($user) || $this->hasImPermission($user, 'can_route');
     }
 
 
@@ -44,7 +35,7 @@ class PropertyPolicy
      * @param  \App\Models\InventoryManagement\property  $property
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, property $property)
+    public function view(User $user, Property $property)
     {
         //
     }
@@ -57,13 +48,7 @@ class PropertyPolicy
      */
     public function create(User $user)
     {
-      
-        $Role = UserRole::where('userid','=',auth('web')->user()->id)->where('roleid',42)->where('can_add', true)->get()->first();
-        if(!empty($Role))
-        {
-            return ($user); 
-
-        }  
+        return $this->isImAdmin($user) || $this->hasImPermission($user, 'can_add');
     }
 
     /**
@@ -73,14 +58,9 @@ class PropertyPolicy
      * @param  \App\Models\InventoryManagement\property  $property
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, property $property)
+    public function update(User $user, Property $property)
     {
-        $Role = UserRole::where('userid','=',auth('web')->user()->id)->where('roleid',28)->where('can_edit', true)->get()->first();
-        if(!empty($Role))
-        {
-            return ($user); 
-
-        }  
+        return $this->isImAdmin($user) || $this->hasImPermission($user, 'can_edit');
     }
 
     /**
@@ -90,14 +70,9 @@ class PropertyPolicy
      *@param  \App\Models\InventoryManagement\property  $property
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, property $property)
+    public function delete(User $user, Property $property)
     {
-        $Role = UserRole::where('userid','=',auth('web')->user()->id)->where('roleid',28)->where('can_delete', true)->get()->first();
-        if(!empty($Role))
-        {
-            return ($user); 
-
-        }  
+        return $this->isImAdmin($user) || $this->hasImPermission($user, 'can_delete');
     }
 
     /**
@@ -107,7 +82,7 @@ class PropertyPolicy
      *@param  \App\Models\InventoryManagement\property  $property
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, property $property)
+    public function restore(User $user, Property $property)
     {
         //
     }
@@ -119,9 +94,22 @@ class PropertyPolicy
      * @param  \App\Models\InventoryManagement\property  $property
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, property $property)
+    public function forceDelete(User $user, Property $property)
     {
         //
+    }
+
+    private function isImAdmin(User $user): bool
+    {
+        return (bool) $user->is_admin;
+    }
+
+    private function hasImPermission(User $user, string $column): bool
+    {
+        return UserRole::where('userid', $user->id)
+            ->where('roleid', 42)
+            ->where($column, true)
+            ->exists();
     }
 
 }
